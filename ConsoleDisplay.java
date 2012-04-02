@@ -9,7 +9,7 @@ public class ConsoleDisplay
             {
                 display(U);
                 System.out.println("GENERATION " + g);
-                U.advance_generation();
+                U.advanceGeneration();
                 Thread.sleep(120);
             }
     }

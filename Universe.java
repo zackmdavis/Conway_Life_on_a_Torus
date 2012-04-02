@@ -47,7 +47,7 @@ public class Universe
         return live_neighbors;
     }
 
-    public void advance_generation()
+    public void advanceGeneration()
     {
         int[][] new_board = new int[rows][cols];
         for(int i=0; i<rows; i++)
@@ -87,4 +87,3 @@ public class Universe
         return (a%b + b)%b;
     }
 }
-        

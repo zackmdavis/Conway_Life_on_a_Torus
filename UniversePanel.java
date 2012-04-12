@@ -17,10 +17,11 @@ public class UniversePanel extends JPanel
         setLayout(new GridLayout(cells.length, cells[0].length));
         for (int i=0; i<cells.length; i++)
             {
-                for (int j=0; j<cells.length; j++)
+                for (int j=0; j<cells[0].length; j++)
                     {
                         JLabel cell = new JLabel();
                         cell.setOpaque(true);
+                        //System.out.println("indices " + i + " " + j); // DEBUGGING
                         if (universe.board[i][j]==1)
                             cell.setBackground(Color.black);
                         else
@@ -37,7 +38,7 @@ public class UniversePanel extends JPanel
     {
         for (int i=0; i<cells.length; i++)
             {
-                for (int j=0; j<cells.length; j++)
+                for (int j=0; j<cells[0].length; j++)
                     {
                         if (universe.board[i][j]==1)
                             cells[i][j].setBackground(Color.black);
@@ -52,17 +53,19 @@ public class UniversePanel extends JPanel
         // TODO?---make Cell class extending JLabel to include index info so as to avoid this awful "WTF" double-loop; or, some other solution
         for (int i=0; i<cells.length; i++)
             {
-                for (int j=0; j<cells.length; j++)
+                for (int j=0; j<cells[0].length; j++)
                     {
                         if (cell == cells[i][j])
                             {
                                 if (universe.board[i][j]==1)
                                     {
+                                        System.out.println(i + " " + j + " OFF");
                                         universe.board[i][j] = 0;
                                         cells[i][j].setBackground(Color.white);
                                     }
                                 else
                                     {
+                                        System.out.println(i + " " + j + " ON");
                                         universe.board[i][j] = 1;
                                         cells[i][j].setBackground(Color.black);
                                     }

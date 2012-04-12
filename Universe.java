@@ -10,6 +10,7 @@ public class Universe
     {
         rows = r;
         cols = c;
+        System.out.println(r + " " + c); // DEBUGGING
         int to_place = x_initials.length;
         int placed = 0;
         board = new int[rows][cols];
@@ -52,14 +53,14 @@ public class Universe
         int[][] new_board = new int[rows][cols];
         for(int i=0; i<rows; i++)
             {
-                for(int j=0; j<rows; j++)
+                for(int j=0; j<cols; j++)
                     {
                         new_board[i][j] = 0;
                     }
             }
         for(int i=0; i<rows; i++)
             {
-                for(int j=0; j<rows; j++)
+                for(int j=0; j<cols; j++)
                     {
                         if(board[i][j]==1)
                             {
@@ -79,7 +80,7 @@ public class Universe
                             }
                     }
             }
-        board =  new_board;        
+        board =  new_board;
     }
 
     public static int modulo(int a, int b)

@@ -1,7 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -13,6 +13,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public Universe universe = new Universe(10, 25, x_start, y_start);
     public JPanel mainPanel = new JPanel();
     public UniversePanel universePanel = new UniversePanel(universe, 20);
+    public RayPanel rayPanel = new RayPanel(universe);
     public JPanel buttonPanel = new JPanel();
     public JButton step = new JButton("Step");
     public JButton go = new JButton("Go");
@@ -21,14 +22,15 @@ public class LifeFrame extends JFrame implements ActionListener
 
     public LifeFrame()
     {
-        FlowLayout layout = new FlowLayout();
+        BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
+        mainPanel.add(rayPanel);
         buttonPanel.add(step);
         buttonPanel.add(go);
         buttonPanel.add(stop);
-        this.setContentPane(mainPanel);
+        setContentPane(mainPanel);
         step.addActionListener(this);
         go.addActionListener(this);
         stop.addActionListener(this);

@@ -10,7 +10,6 @@ public class Universe
     {
         rows = r;
         cols = c;
-        System.out.println(r + " " + c); // DEBUGGING
         int to_place = x_initials.length;
         int placed = 0;
         board = new int[rows][cols];

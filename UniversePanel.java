@@ -21,7 +21,6 @@ public class UniversePanel extends JPanel
                     {
                         JLabel cell = new JLabel();
                         cell.setOpaque(true);
-                        //System.out.println("indices " + i + " " + j); // DEBUGGING
                         if (universe.board[i][j]==1)
                             cell.setBackground(Color.black);
                         else

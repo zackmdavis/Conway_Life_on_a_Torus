@@ -19,6 +19,7 @@ public class Life
                     {
                         lifeFrame.universe.advanceGeneration();
                         lifeFrame.universePanel.updatePanel();
+                        lifeFrame.rayPanel.repaint();
                         Thread.sleep(60);
                     }
             }

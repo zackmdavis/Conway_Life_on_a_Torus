@@ -6,12 +6,12 @@ import java.awt.Color;
 public class UniversePanel extends JPanel
 {
     public Universe universe;
-    private JLabel[][] cells;
+    private Cell[][] cells;
 
     public UniversePanel(Universe u, int cellSize)
     {
         universe = u;
-        cells = new JLabel[universe.rows][universe.cols];
+        cells = new Cell[universe.rows][universe.cols];
         UniversePanelListener listener = new UniversePanelListener(this); 
         Dimension size = new Dimension(cellSize, cellSize);
         setLayout(new GridLayout(cells.length, cells[0].length));
@@ -19,7 +19,7 @@ public class UniversePanel extends JPanel
             {
                 for (int j=0; j<cells[0].length; j++)
                     {
-                        JLabel cell = new JLabel();
+                        Cell cell = new Cell(i, j);
                         cell.setOpaque(true);
                         if (universe.board[i][j]==1)
                             cell.setBackground(Color.black);
@@ -47,29 +47,19 @@ public class UniversePanel extends JPanel
             }
     }
 
-    public void toggleCell(JLabel cell) 
+    public void toggleCell(Cell c) 
     {
-        // TODO?---make Cell class extending JLabel to include index info so as to avoid this awful "WTF" double-loop; or, some other solution
-        for (int i=0; i<cells.length; i++)
+        if (universe.board[c.I][c.J] == 1)
             {
-                for (int j=0; j<cells[0].length; j++)
-                    {
-                        if (cell == cells[i][j])
-                            {
-                                if (universe.board[i][j]==1)
-                                    {
-                                        System.out.println(i + " " + j + " OFF");
-                                        universe.board[i][j] = 0;
-                                        cells[i][j].setBackground(Color.white);
-                                    }
-                                else
-                                    {
-                                        System.out.println(i + " " + j + " ON");
-                                        universe.board[i][j] = 1;
-                                        cells[i][j].setBackground(Color.black);
-                                    }
-                            }
-                    }
+                System.out.println(c.I + " " + c.J + " OFF");
+                universe.board[c.I][c.J] = 0;
+                cells[c.I][c.J].setBackground(Color.white);
+            }
+        else
+            {
+                System.out.println(c.I + " " + c.J + " ON");
+                universe.board[c.I][c.J] = 1;
+                cells[c.I][c.J].setBackground(Color.black);
             }
     }
 

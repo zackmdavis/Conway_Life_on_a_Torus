@@ -14,6 +14,6 @@ public class UniversePanelListener extends MouseAdapter
     @Override
     public void mousePressed(MouseEvent e)
     {
-        universePanel.toggleCell((JLabel)e.getSource());
+        universePanel.toggleCell((Cell)e.getSource());
     }
 }

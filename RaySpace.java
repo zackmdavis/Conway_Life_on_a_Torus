@@ -1,7 +1,7 @@
 public class RaySpace
 {
-    public Universe universe;
-    public SpaceTile[] tiles;
+    private Universe universe;
+    private SpaceTile[] tiles;
 
     public RaySpace(Universe u)
     {
@@ -23,8 +23,42 @@ public class RaySpace
 
     public SpaceVector planeMapping(int i, int j)
     {
-        // TODO
-        return new SpaceVector(0, 0, 0);
+        return new SpaceVector(-8+i, -8+j, 0);
+    }
+
+    public int castRay(SpaceVector origin, SpaceVector direction)
+    {
+        float t, d;
+        float closest_t = Float.POSITIVE_INFINITY;
+        int hitTile = -1;
+        for(int tile = 0; tile<tiles.length; tile++)
+            {
+                if (tiles[tile].N.dot(direction) == 0)
+                    continue;
+                d = tiles[tile].P0.negation().dot(tiles[tile].N);
+                t = (-d + tiles[tile].N.dot(origin))/(tiles[tile].N.dot(direction));
+                if (t < 0)
+                    continue;
+                else if (t > closest_t)
+                    continue;
+                else
+                    {
+                        closest_t = t;
+                        hitTile = tile;
+                    }
+            }
+        if (hitTile == -1)
+            {
+                return -1;
+            }
+        else
+            {
+                if (universe.board[hitTile/universe.rows][hitTile%universe.rows] == 0)
+                    return 0;
+                else
+                    return 1;
+            }
+        
     }
 
 }

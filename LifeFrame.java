@@ -43,6 +43,7 @@ public class LifeFrame extends JFrame implements ActionListener
             {
                 universe.advanceGeneration();
                 universePanel.updatePanel();
+                rayPanel.repaint();
                 System.out.println("step");
             }
         else if (e.getSource() == go)

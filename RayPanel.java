@@ -6,46 +6,53 @@ import javax.swing.*;
 
 public class RayPanel extends JPanel
 {
+    private Universe universe;
     private RaySpace raySpace;
+    private RayPixel[][] pixels;
+    private SpaceVector cameraAt, cameraDirection;
 
     public RayPanel(Universe u)
     {
+        universe = u;
         raySpace = new RaySpace(u);
+        pixels = new RayPixel[u.rows][u.cols];
+        // TESTING
+        SpaceVector test1 = new SpaceVector(0f, 0f, 0f);
+        SpaceVector test2 = new SpaceVector(0f, 0f, 0f);
+        initializePixels(test1, test2);
         this.setPreferredSize(new Dimension(500,200));
+    }
+
+    public void initializePixels(SpaceVector cameraAt, SpaceVector cameraDirection)
+    {
+        for (int i=0; i<universe.rows; i++)
+            {
+                for (int j=0; j<universe.cols; j++)
+                    {
+                        pixels[i][j] = raySpace.castRay(cameraAt, cameraDirection);
+                    }
+            }
     }
 
     @Override
     public void paintComponent(Graphics g)
     {
-        SpaceVector camera = new SpaceVector(0, 0, 20);
-        for (int i=0; i<100; i++)
+        RayPixel p;
+        for (int i=0; i<pixels.length; i++)
             {
-                for (int j=0; j<100; j++)
+                for (int j=0; j<pixels[0].length; j++)
                     {
-                        SpaceVector dir = new SpaceVector(0.1f*i, 0.1f*j, -1);
-                        int pixel = raySpace.castRay(camera, dir);
-                        switch (pixel)
-                            {
-                            case -1:
-                                g.setColor(Color.blue);
-                                break;
-                            case 0:
-                                g.setColor(Color.white);
-                                break;
-                            case 1:
-                                g.setColor(Color.black);
-                                break;
-                            }
-                        g.fillRect(i, j, 1, 1);
-                        // (old placeholder code)
-                        // if (universe.board[i][j] == 1)
-                        //     g.setColor(Color.black);
-                        // else if (universe.board[i][j] == 0)
-                        //     g.setColor(Color.white);
-                        // g.fillRect(10*i, 10*j, 10, 10);
+                        p = pixels[i][j];
+                        if (!p.inUniverse)
+                            g.setColor(Color.blue);
+                        else if (universe.board[p.cellIndex[0]][p.cellIndex[0]] == 0)
+                            g.setColor(Color.white);
+                        else if (universe.board[p.cellIndex[0]][p.cellIndex[0]] == 1)
+                            g.setColor(Color.black);
+                        
+                        g.fillRect(5*j, 5*i, 5, 5);
                     }
-            }       
-
+            }
     }
 
 }

@@ -5,6 +5,7 @@ public class RaySpace
 
     public RaySpace(Universe u)
     {
+        universe = u;
         tiles = new SpaceTile[u.rows*u.cols];
         for (int i=0; i<u.rows; i++)
             {
@@ -33,6 +34,7 @@ public class RaySpace
         int hitTile = -1;
         for(int tile = 0; tile<tiles.length; tile++)
             {
+                System.out.println("TILE #" + tile + " " + tiles[tile].N.dot(direction)); // DEBUGGING
                 if (tiles[tile].N.dot(direction) == 0)
                     continue;
                 d = tiles[tile].P0.negation().dot(tiles[tile].N);

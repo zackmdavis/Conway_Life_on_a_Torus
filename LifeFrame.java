@@ -13,7 +13,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public Universe universe = new Universe(10, 25, x_start, y_start);
     public JPanel mainPanel = new JPanel();
     public UniversePanel universePanel = new UniversePanel(universe, 20);
-    public RayPanel rayPanel = new RayPanel(universe);
+    public RayPanel rayPanel = new RayPanel(universe, 250, 100);
     public JPanel buttonPanel = new JPanel();
     public JButton step = new JButton("Step");
     public JButton go = new JButton("Go");

@@ -56,6 +56,7 @@ public class RaySpace
                 for (int j=0; j<universe.rows; j++)
                     {
                         t = intersection_t(cameraAt, cameraDir, tiles[i][j]);
+                        System.out.println(t + " " + i + " " + j); // DEBUGGING
                         if (t < 0)
                             break;
                         else if (t > closest_t)

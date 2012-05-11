@@ -9,9 +9,19 @@ public class SpaceVector
         Z = z;
     }
 
+    public SpaceVector scale(float c)
+    {
+        return new SpaceVector(c*X, c*Y, c*Z);
+    }
+
     public float dot(SpaceVector v)
     {
         return X*v.X + Y*v.Y + Z*v.Z;
+    }
+
+    public float norm()
+    {
+        return (float)Math.sqrt(this.dot(this));
     }
 
     public SpaceVector cross(SpaceVector v)
@@ -27,5 +37,10 @@ public class SpaceVector
     public SpaceVector negation()
     {
         return new SpaceVector(-X, -Y, -Z);
+    }
+
+    public SpaceVector projectionFrom(SpaceVector b)
+    {
+        return this.scale(this.dot(b)/this.dot(this));
     }
 }

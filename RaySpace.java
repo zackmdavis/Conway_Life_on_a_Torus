@@ -1,12 +1,12 @@
 public class RaySpace
 {
     private Universe universe;
-    private SpaceTile[] tiles;
+    private SpaceTile[][] tiles;
 
     public RaySpace(Universe u)
     {
         universe = u;
-        tiles = new SpaceTile[u.rows*u.cols];
+        tiles = new SpaceTile[u.rows][u.cols];
         for (int i=0; i<u.rows; i++)
             {
                 for (int j=0; j<u.cols; j++)
@@ -17,7 +17,7 @@ public class RaySpace
                         SpaceVector p0 = planeMapping(i, j);
                         SpaceVector pA = planeMapping(i, j);
                         SpaceVector pB = planeMapping(i, j);
-                        tiles[i+j] = new SpaceTile(p0, pA, pB);
+                        tiles[i][j] = new SpaceTile(p0, pA, pB);
                     }
             }
     }
@@ -27,44 +27,50 @@ public class RaySpace
         return new SpaceVector(-8+i, -8+j, 0);
     }
 
-    public RayPixel castRay(SpaceVector origin, SpaceVector direction)
+    private float intersection_t(SpaceVector cameraAt, SpaceVector cameraDir, SpaceTile tile)
     {
-        // TESTING
-        RayPixel test = new RayPixel(0, 0);
-        return test;
-        // (old code to rewrite/reconsider follows)
-        // float t, d;
-        // float closest_t = Float.POSITIVE_INFINITY;
-        // int hitTile = -1;
-        // for(int tile = 0; tile<tiles.length; tile++)
-        //     {
-        //         System.out.println("TILE #" + tile + " " + tiles[tile].N.dot(direction)); // DEBUGGING
-        //         if (tiles[tile].N.dot(direction) == 0)
-        //             continue;
-        //         d = tiles[tile].P0.negation().dot(tiles[tile].N);
-        //         t = (-d + tiles[tile].N.dot(origin))/(tiles[tile].N.dot(direction));
-        //         if (t < 0)
-        //             continue;
-        //         else if (t > closest_t)
-        //             continue;
-        //         else
-        //             {
-        //                 closest_t = t;
-        //                 hitTile = tile;
-        //             }
-        //     }
-        // if (hitTile == -1)
-        //     {
-        //         return -1;
-        //     }
-        // else
-        //     {
-        //         if (universe.board[hitTile/universe.rows][hitTile%universe.rows] == 0)
-        //             return 0;
-        //         else
-        //             return 1;
-        //     }
-        
+        if (tile.N.dot(cameraDir) == 0)
+            return Float.NEGATIVE_INFINITY;
+        else
+            return tile.N.dot(tile.P0.plus(cameraAt.negation()))/tile.N.dot(cameraDir);
+    }
+
+    private boolean inTile(SpaceVector intersection, SpaceTile tile)
+    {
+        if (tile.P0.projectionFrom(intersection.plus(tile.VA.negation())).norm() < tile.VA.norm())
+            {
+                if (tile.P0.projectionFrom(intersection.plus(tile.VB.negation())).norm() < tile.VB.norm())
+                    return true;
+            }
+        return false;
+    }
+
+    public RayPixel castRay(SpaceVector cameraAt, SpaceVector cameraDir)
+    {
+        float closest_t = Float.POSITIVE_INFINITY;
+        RayPixel hit = new RayPixel();
+        float t;
+        boolean inside;
+        for (int i=0; i<universe.rows; i++)
+            {
+                for (int j=0; j<universe.rows; j++)
+                    {
+                        t = intersection_t(cameraAt, cameraDir, tiles[i][j]);
+                        if (t < 0)
+                            break;
+                        else if (t > closest_t)
+                            break;
+                        inside = inTile(cameraAt.plus(cameraDir.scale(t)), tiles[i][j]);
+                        if (!inside)
+                            break;
+                        else
+                            {
+                                closest_t = t;
+                                hit = new RayPixel(i, j);
+                            }
+                    }
+            }
+        return hit;
     }
 
 }

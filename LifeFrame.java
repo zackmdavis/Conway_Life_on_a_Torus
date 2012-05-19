@@ -1,10 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
+import javax.swing.*;
 
 public class LifeFrame extends JFrame implements ActionListener
 {
@@ -15,6 +12,10 @@ public class LifeFrame extends JFrame implements ActionListener
     public UniversePanel universePanel = new UniversePanel(universe, 20);
     // RayPanel is not yet working
     //public RayPanel rayPanel = new RayPanel(universe);
+
+    public JMenuBar menuBar;
+    public JMenu fileMenu;
+    public JMenuItem RLEtoConsole;
     public JPanel buttonPanel = new JPanel();
     public JButton step = new JButton("Step");
     public JButton go = new JButton("Go");
@@ -28,6 +29,15 @@ public class LifeFrame extends JFrame implements ActionListener
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         //mainPanel.add(rayPanel);
+
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+        RLEtoConsole = new JMenuItem("Print RLE to Console");
+        fileMenu.add(RLEtoConsole);
+
+        setJMenuBar(menuBar);
+
         buttonPanel.add(step);
         buttonPanel.add(go);
         buttonPanel.add(stop);

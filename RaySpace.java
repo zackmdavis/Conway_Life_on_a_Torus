@@ -15,8 +15,8 @@ public class RaySpace
                         // getting the raycasting to work at all; then
                         // swap in torus mapping
                         SpaceVector p0 = planeMapping(i, j);
-                        SpaceVector pA = planeMapping(i, j);
-                        SpaceVector pB = planeMapping(i, j);
+                        SpaceVector pA = planeMapping(i+1, j);
+                        SpaceVector pB = planeMapping(i, j+1);
                         tiles[i][j] = new SpaceTile(p0, pA, pB);
                     }
             }
@@ -51,12 +51,24 @@ public class RaySpace
         RayPixel hit = new RayPixel();
         float t;
         boolean inside;
+
+        // for (int i=0; i<universe.rows; i++) // investigating odd loop behavior
+        //     {
+        //         for (int j=0; j<universe.cols; j++)
+        //             {
+        //                 System.out.println(i + " " + j);
+        //             }
+        //     }
+
         for (int i=0; i<universe.rows; i++)
             {
-                for (int j=0; j<universe.rows; j++)
+                for (int j=0; j<universe.cols; j++)
                     {
+                        System.out.println(j);
                         t = intersection_t(cameraAt, cameraDir, tiles[i][j]);
+                        System.out.println(j); //DEBUGGING
                         System.out.println(t + " " + i + " " + j); // DEBUGGING
+                        
                         if (t < 0)
                             break;
                         else if (t > closest_t)

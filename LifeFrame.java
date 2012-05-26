@@ -35,6 +35,7 @@ public class LifeFrame extends JFrame implements ActionListener
         menuBar.add(fileMenu);
         RLEtoConsole = new JMenuItem("Print RLE to Console");
         fileMenu.add(RLEtoConsole);
+        RLEtoConsole.addActionListener(this);
 
         setJMenuBar(menuBar);
 
@@ -65,6 +66,11 @@ public class LifeFrame extends JFrame implements ActionListener
             {
                 running = false;
                 System.out.println("running = " + running);
+            }
+        else if (e.getSource() == RLEtoConsole)
+            {
+                RLEEncoder encoder = new RLEEncoder(universe);
+                encoder.printToConsole();
             }
                 
     }

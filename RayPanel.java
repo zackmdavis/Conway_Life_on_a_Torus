@@ -34,8 +34,10 @@ public class RayPanel extends JPanel
             {
                 for (int j=0; j<panelWidth/pixelScale; j++)
                     {
-                        direction = new SpaceVector(-10+0.1f*i, -10+0.1f*j, -1);
+                        direction = new SpaceVector(-10+0.1f*i, -10+0.1f*j, -10);
+                        direction = direction.scale(1/direction.norm());
                         pixels[i][j] = raySpace.castRay(camera, direction);
+                        System.out.println("Pixel #" + i + " " + j + " locked!");
                     }
             }
     }

@@ -51,35 +51,16 @@ public class RaySpace
         RayPixel hit = new RayPixel();
         float t;
         boolean inside;
-
-        // for (int i=0; i<universe.rows; i++) // investigating odd loop behavior
-        //     {
-        //         for (int j=0; j<universe.cols; j++)
-        //             {
-        //                 System.out.println(i + " " + j);
-        //             }
-        //     }
-
-        for (int i=0; i<universe.rows; i++)
+        for (int r=0; r<universe.rows; r++)
             {
-                for (int j=0; j<universe.cols; j++)
+                for (int c=0; c<universe.cols; c++)
                     {
-                        System.out.println(j);
-                        t = intersection_t(cameraAt, cameraDir, tiles[i][j]);
-                        System.out.println(j); //DEBUGGING
-                        System.out.println(t + " " + i + " " + j); // DEBUGGING
-                        
-                        if (t < 0)
-                            break;
-                        else if (t > closest_t)
-                            break;
-                        inside = inTile(cameraAt.plus(cameraDir.scale(t)), tiles[i][j]);
-                        if (!inside)
-                            break;
-                        else
+                        t = intersection_t(cameraAt, cameraDir, tiles[r][c]);
+                        inside = inTile(cameraAt.plus(cameraDir.scale(t)), tiles[r][c]);
+                        if ((t>0) && (t<closest_t) && inside)
                             {
                                 closest_t = t;
-                                hit = new RayPixel(i, j);
+                                hit = new RayPixel(r, c);
                             }
                     }
             }

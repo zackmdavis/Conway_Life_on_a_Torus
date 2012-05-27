@@ -1,5 +1,3 @@
-import java.lang.RuntimeException;
-
 public class RLEEncoder
 {
 
@@ -35,9 +33,7 @@ public class RLEEncoder
                                 run = 1;
                             }
                         else
-                            {
-                                run++;
-                            }                            
+                            run++;
                     }
                 if (state == 0)
                     {
@@ -75,6 +71,10 @@ public class RLEEncoder
             }
     }
 
+    public String getRLE()
+    {
+        return builder.toString();
+    }
 
     public void printToConsole()
     {

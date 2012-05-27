@@ -1,11 +1,7 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 
 public class LifeFrame extends JFrame implements ActionListener
 {
@@ -16,6 +12,13 @@ public class LifeFrame extends JFrame implements ActionListener
     public UniversePanel universePanel = new UniversePanel(universe, 20);
     // RayPanel is not yet working
     //public RayPanel rayPanel = new RayPanel(universe);
+
+    public JMenuBar menuBar;
+    public JMenu fileMenu;
+    public JMenuItem RLEtoConsole;
+    JMenuItem saveRLE;
+    JFileChooser fileChooser;
+
     public JPanel buttonPanel = new JPanel();
     public JButton step = new JButton("Step");
     public JButton go = new JButton("Go");
@@ -29,6 +32,22 @@ public class LifeFrame extends JFrame implements ActionListener
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         //mainPanel.add(rayPanel);
+
+        menuBar = new JMenuBar();
+        fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+
+        RLEtoConsole = new JMenuItem("Print RLE to Console");
+        fileMenu.add(RLEtoConsole);
+        RLEtoConsole.addActionListener(this);
+
+        saveRLE = new JMenuItem("Save as RLE ...");
+        fileMenu.add(saveRLE);
+        saveRLE.addActionListener(this);
+        fileChooser = new JFileChooser();
+
+        setJMenuBar(menuBar);
+
         buttonPanel.add(step);
         buttonPanel.add(go);
         buttonPanel.add(stop);
@@ -64,9 +83,30 @@ public class LifeFrame extends JFrame implements ActionListener
                 stop.setEnabled(false);
                 go.setEnabled(true);
             }
+        else if (e.getSource() == RLEtoConsole)
+            {
+                RLEEncoder encoder = new RLEEncoder(universe);
+                encoder.printToConsole();
+            }
+        else if (e.getSource() == saveRLE)
+            {
+                int returnVal = fileChooser.showSaveDialog(this);
+                File saveFile = saveFile = fileChooser.getSelectedFile();
+                System.out.println(saveFile);
+                try
+                    {
+                        PrintWriter RLESaver = new PrintWriter(new FileWriter(saveFile));
+                        RLEEncoder encoder = new RLEEncoder(universe);
+                        String RLE = encoder.getRLE();
+                        System.out.println(RLE);
+                        RLESaver.print(RLE);
+                        RLESaver.close();
+                    }
+                catch(Exception exp)
+                    {
+                        System.out.println("An exception occurred while trying to save a file.");
+                    }
+            }
                 
     }
-
-
-    
 }

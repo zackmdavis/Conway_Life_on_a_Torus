@@ -87,7 +87,6 @@ public class LifeFrame extends JFrame implements ActionListener
                 int returnVal = fileChooser.showSaveDialog(this);
                 File saveFile = saveFile = fileChooser.getSelectedFile();
                 System.out.println(saveFile);
-                // broken--- this will create the file, but not actually write anything to it
                 try
                     {
                         PrintWriter RLESaver = new PrintWriter(new FileWriter(saveFile));
@@ -95,6 +94,7 @@ public class LifeFrame extends JFrame implements ActionListener
                         String RLE = encoder.getRLE();
                         System.out.println(RLE);
                         RLESaver.print(RLE);
+                        RLESaver.close();
                     }
                 catch(Exception exp)
                     {
@@ -103,7 +103,4 @@ public class LifeFrame extends JFrame implements ActionListener
             }
                 
     }
-
-
-    
 }

@@ -5,6 +5,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import java.awt.Color;
 
 public class LifeFrame extends JFrame implements ActionListener
 {
@@ -31,6 +32,9 @@ public class LifeFrame extends JFrame implements ActionListener
         buttonPanel.add(step);
         buttonPanel.add(go);
         buttonPanel.add(stop);
+        go.setBackground(new Color(125, 240, 160));
+        stop.setBackground(new Color(250, 150, 150));
+        stop.setEnabled(false);
         setContentPane(mainPanel);
         step.addActionListener(this);
         go.addActionListener(this);
@@ -50,11 +54,15 @@ public class LifeFrame extends JFrame implements ActionListener
             {
                 running = true;
                 System.out.println("running = " + running);
+                go.setEnabled(false);
+                stop.setEnabled(true);
             }
         else if (e.getSource() == stop)
             {
                 running = false;
                 System.out.println("running = " + running);
+                stop.setEnabled(false);
+                go.setEnabled(true);
             }
                 
     }

@@ -17,9 +17,9 @@ public class Universe
             {
                 for (int j=0; j<cols; j++)
                     {
-                        if (placed<to_place)
+                        if (placed < to_place)
                             {
-                                if (i==x_initials[placed] && j==y_initials[placed])
+                                if (i == x_initials[placed] && j == y_initials[placed])
                                     {
                                         board[i][j] = 1;
                                         placed++;
@@ -31,6 +31,13 @@ public class Universe
                             board[i][j] = 0;
                     }
             }
+    }
+
+    public Universe(int r, int c, int[][] b)
+    {
+        rows = r;
+        cols = c;
+        board = b;
     }
 
     public int neighborhood(int i, int j)

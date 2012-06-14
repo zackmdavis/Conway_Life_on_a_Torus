@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.StringTokenizer;
 
 public class LifeFrame extends JFrame implements ActionListener
 {
@@ -14,7 +15,9 @@ public class LifeFrame extends JFrame implements ActionListener
     //public RayPanel rayPanel = new RayPanel(universe);
 
     public JMenuBar menuBar;
+
     public JMenu fileMenu;
+    JMenuItem newBlankUniverse;
     public JMenuItem RLEtoConsole;
     JMenuItem saveRLE;
     JFileChooser fileChooser;
@@ -37,6 +40,10 @@ public class LifeFrame extends JFrame implements ActionListener
         fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
+        newBlankUniverse = new JMenuItem("New Blank Universe ...");
+        fileMenu.add(newBlankUniverse);
+        newBlankUniverse.addActionListener(this);
+
         RLEtoConsole = new JMenuItem("Print RLE to Console");
         fileMenu.add(RLEtoConsole);
         RLEtoConsole.addActionListener(this);
@@ -58,6 +65,33 @@ public class LifeFrame extends JFrame implements ActionListener
         step.addActionListener(this);
         go.addActionListener(this);
         stop.addActionListener(this);
+    }
+
+    private void setUniverse(String specification)
+    {
+        RLEDecoder decoder = new RLEDecoder(specification);
+        universe = decoder.toUniverse();
+        mainPanel.remove(universePanel);
+        mainPanel.remove(buttonPanel);
+        universePanel = new UniversePanel(universe, 20);
+        mainPanel.add(universePanel);
+        mainPanel.add(buttonPanel);
+        this.pack();
+        mainPanel.repaint();
+        mainPanel.revalidate();
+    }
+
+    private void setUniverse(Universe u)
+    {
+        universe = u;
+        mainPanel.remove(universePanel);
+        mainPanel.remove(buttonPanel);
+        universePanel = new UniversePanel(universe, 20);
+        mainPanel.add(universePanel);
+        mainPanel.add(buttonPanel);
+        this.pack();
+        mainPanel.repaint();
+        mainPanel.revalidate();
     }
 
     @Override
@@ -107,6 +141,27 @@ public class LifeFrame extends JFrame implements ActionListener
                         System.out.println("An exception occurred while trying to save a file.");
                     }
             }
-                
+        else if (e.getSource() == newBlankUniverse)
+            {
+                String userDimensionInput = JOptionPane.showInputDialog("Enter the horizontal and vertical\ndimensions (separated by a comma)\nof the new universe to be created"
+);
+                StringTokenizer dimensionTokenizer = new StringTokenizer(userDimensionInput, ",");
+                int[] userDimensions = new int[2];
+                try
+                    {
+                        for (int i=0; i<2; i++)
+                            {
+                                userDimensions[i] = Integer.parseInt(dimensionTokenizer.nextToken());
+                            }
+                    }
+                catch (NumberFormatException nfe)
+                    {
+                        JOptionPane.showMessageDialog(this, "Error: can't parse dimensions");                  
+                    }
+                Universe blankUniverse = new Universe(userDimensions[0], userDimensions[1]);
+                setUniverse(blankUniverse);
+            }
+
     }
+
 }

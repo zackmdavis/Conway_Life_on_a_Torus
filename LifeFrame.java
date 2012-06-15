@@ -11,8 +11,6 @@ public class LifeFrame extends JFrame implements ActionListener
     public Universe universe = new Universe(10, 25, x_start, y_start);
     public JPanel mainPanel = new JPanel();
     public UniversePanel universePanel = new UniversePanel(universe, 20);
-    // RayPanel is not yet working
-    //public RayPanel rayPanel = new RayPanel(universe);
 
     public JMenuBar menuBar;
 
@@ -34,7 +32,6 @@ public class LifeFrame extends JFrame implements ActionListener
         mainPanel.setLayout(layout);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
-        //mainPanel.add(rayPanel);
 
         menuBar = new JMenuBar();
         fileMenu = new JMenu("File");
@@ -43,15 +40,6 @@ public class LifeFrame extends JFrame implements ActionListener
         newBlankUniverse = new JMenuItem("New Blank Universe ...");
         fileMenu.add(newBlankUniverse);
         newBlankUniverse.addActionListener(this);
-
-        RLEtoConsole = new JMenuItem("Print RLE to Console");
-        fileMenu.add(RLEtoConsole);
-        RLEtoConsole.addActionListener(this);
-
-        saveRLE = new JMenuItem("Save as RLE ...");
-        fileMenu.add(saveRLE);
-        saveRLE.addActionListener(this);
-        fileChooser = new JFileChooser();
 
         setJMenuBar(menuBar);
 
@@ -117,33 +105,9 @@ public class LifeFrame extends JFrame implements ActionListener
                 stop.setEnabled(false);
                 go.setEnabled(true);
             }
-        else if (e.getSource() == RLEtoConsole)
-            {
-                RLEEncoder encoder = new RLEEncoder(universe);
-                encoder.printToConsole();
-            }
-        else if (e.getSource() == saveRLE)
-            {
-                int returnVal = fileChooser.showSaveDialog(this);
-                File saveFile = saveFile = fileChooser.getSelectedFile();
-                System.out.println(saveFile);
-                try
-                    {
-                        PrintWriter RLESaver = new PrintWriter(new FileWriter(saveFile));
-                        RLEEncoder encoder = new RLEEncoder(universe);
-                        String RLE = encoder.getRLE();
-                        System.out.println(RLE);
-                        RLESaver.print(RLE);
-                        RLESaver.close();
-                    }
-                catch(Exception exp)
-                    {
-                        System.out.println("An exception occurred while trying to save a file.");
-                    }
-            }
         else if (e.getSource() == newBlankUniverse)
             {
-                String userDimensionInput = JOptionPane.showInputDialog("Enter the horizontal and vertical\ndimensions (separated by a comma)\nof the new universe to be created"
+                String userDimensionInput = JOptionPane.showInputDialog("Enter the vertical and horizontal\ndimensions (separated by a comma)\nof the new universe to be created"
 );
                 StringTokenizer dimensionTokenizer = new StringTokenizer(userDimensionInput, ",");
                 int[] userDimensions = new int[2];
@@ -152,16 +116,15 @@ public class LifeFrame extends JFrame implements ActionListener
                         for (int i=0; i<2; i++)
                             {
                                 userDimensions[i] = Integer.parseInt(dimensionTokenizer.nextToken());
+                                Universe blankUniverse = new Universe(userDimensions[0], userDimensions[1]);
+                                setUniverse(blankUniverse);
                             }
                     }
                 catch (NumberFormatException nfe)
                     {
-                        JOptionPane.showMessageDialog(this, "Error: can't parse dimensions");                  
+                        JOptionPane.showMessageDialog(this, "Regretfully, the program is unable to interpret your input.\n\n Please, try again.", "Error Parsing Dimensions", JOptionPane.ERROR_MESSAGE);                  
                     }
-                Universe blankUniverse = new Universe(userDimensions[0], userDimensions[1]);
-                setUniverse(blankUniverse);
             }
-
     }
 
 }

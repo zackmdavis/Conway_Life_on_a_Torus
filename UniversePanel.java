@@ -7,6 +7,8 @@ public class UniversePanel extends JPanel
 {
     public Universe universe;
     private Cell[][] cells;
+    private Color liveColor = Color.black;
+    private Color deadColor = Color.white;
 
     public UniversePanel(Universe u, int cellSize)
     {
@@ -40,9 +42,9 @@ public class UniversePanel extends JPanel
                 for (int j=0; j<cells[0].length; j++)
                     {
                         if (universe.board[i][j]==1)
-                            cells[i][j].setBackground(Color.black);
+                            cells[i][j].setBackground(liveColor);
                         else
-                            cells[i][j].setBackground(Color.white);
+                            cells[i][j].setBackground(deadColor);
                     }
             }
     }
@@ -53,14 +55,25 @@ public class UniversePanel extends JPanel
             {
                 System.out.println(c.I + " " + c.J + " OFF");
                 universe.board[c.I][c.J] = 0;
-                cells[c.I][c.J].setBackground(Color.white);
+                cells[c.I][c.J].setBackground(deadColor);
             }
         else
             {
                 System.out.println(c.I + " " + c.J + " ON");
                 universe.board[c.I][c.J] = 1;
-                cells[c.I][c.J].setBackground(Color.black);
+                cells[c.I][c.J].setBackground(liveColor);
             }
     }
 
+    public void changeLiveColor(Color newColor)
+    {
+        liveColor = newColor;
+        updatePanel();
+    }
+
+    public void changeDeadColor(Color newColor)
+    {
+        deadColor = newColor;
+        updatePanel();
+    }
 }

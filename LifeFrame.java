@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.StringTokenizer;
+import java.awt.Color;
 
 public class LifeFrame extends JFrame implements ActionListener
 {
@@ -20,6 +21,11 @@ public class LifeFrame extends JFrame implements ActionListener
     JMenuItem saveRLE;
     JFileChooser fileChooser;
 
+    public JMenu optionsMenu;
+    public JMenuItem chooseLiveColor;
+    public JMenuItem chooseDeadColor;
+    public JColorChooser colorChooser;
+
     public JPanel buttonPanel = new JPanel();
     public JButton step = new JButton("Step");
     public JButton go = new JButton("Go");
@@ -34,12 +40,26 @@ public class LifeFrame extends JFrame implements ActionListener
         mainPanel.add(buttonPanel);
 
         menuBar = new JMenuBar();
+
         fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
 
         newBlankUniverse = new JMenuItem("New Blank Universe ...");
         fileMenu.add(newBlankUniverse);
         newBlankUniverse.addActionListener(this);
+
+        optionsMenu = new JMenu("Options");
+        menuBar.add(optionsMenu);
+
+        colorChooser = new JColorChooser();
+
+        chooseLiveColor = new JMenuItem("Choose Live Cell Color ...");
+        optionsMenu.add(chooseLiveColor);
+        chooseLiveColor.addActionListener(this);
+
+        chooseDeadColor = new JMenuItem("Choose Dead Cell Color ...");
+        optionsMenu.add(chooseDeadColor);
+        chooseDeadColor.addActionListener(this);
 
         setJMenuBar(menuBar);
 
@@ -115,6 +135,18 @@ public class LifeFrame extends JFrame implements ActionListener
                         Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
                         setUniverse(blankUniverse);
                     }
+            }
+        else if (e.getSource() == chooseLiveColor)
+            {
+                Color newColor = colorChooser.showDialog(this, "Live Cell Color", Color.black);
+                if (newColor != null)
+                    universePanel.changeLiveColor(newColor);
+            }
+        else if (e.getSource() == chooseDeadColor)
+            {
+                Color newColor = colorChooser.showDialog(this, "Dead Cell Color", Color.white);
+                if (newColor != null)
+                    universePanel.changeDeadColor(newColor);
             }
     }
 }

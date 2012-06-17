@@ -18,6 +18,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public JMenu fileMenu;
     public JMenuItem newBlankUniverse;
     public JMenuItem RLEtoConsole;
+    public JMenuItem quit;
     JMenuItem saveRLE;
     JFileChooser fileChooser;
 
@@ -47,6 +48,10 @@ public class LifeFrame extends JFrame implements ActionListener
         newBlankUniverse = new JMenuItem("New Blank Universe ...");
         fileMenu.add(newBlankUniverse);
         newBlankUniverse.addActionListener(this);
+
+        quit = new JMenuItem("Quit");
+        fileMenu.add(quit);
+        quit.addActionListener(this);
 
         optionsMenu = new JMenu("Options");
         menuBar.add(optionsMenu);
@@ -135,6 +140,10 @@ public class LifeFrame extends JFrame implements ActionListener
                         Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
                         setUniverse(blankUniverse);
                     }
+            }
+        else if (e.getSource() == quit)
+            {
+                System.exit(0);
             }
         else if (e.getSource() == chooseLiveColor)
             {

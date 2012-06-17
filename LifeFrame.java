@@ -116,9 +116,10 @@ public class LifeFrame extends JFrame implements ActionListener
                         for (int i=0; i<2; i++)
                             {
                                 userDimensions[i] = Integer.parseInt(dimensionTokenizer.nextToken());
-                                Universe blankUniverse = new Universe(userDimensions[0], userDimensions[1]);
-                                setUniverse(blankUniverse);
                             }
+                        Universe blankUniverse = new Universe(userDimensions[0], userDimensions[1]);
+                        setUniverse(blankUniverse);
+ 
                     }
                 catch (NumberFormatException nfe)
                     {

@@ -15,7 +15,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public JMenuBar menuBar;
 
     public JMenu fileMenu;
-    JMenuItem newBlankUniverse;
+    public JMenuItem newBlankUniverse;
     public JMenuItem RLEtoConsole;
     JMenuItem saveRLE;
     JFileChooser fileChooser;
@@ -107,25 +107,14 @@ public class LifeFrame extends JFrame implements ActionListener
             }
         else if (e.getSource() == newBlankUniverse)
             {
-                String userDimensionInput = JOptionPane.showInputDialog("Enter the vertical and horizontal\ndimensions (separated by a comma)\nof the new universe to be created"
-);
-                StringTokenizer dimensionTokenizer = new StringTokenizer(userDimensionInput, ",");
-                int[] userDimensions = new int[2];
-                try
+                DimensionsDialog dimensionsDialog = new DimensionsDialog(this);
+                dimensionsDialog.pack();
+                dimensionsDialog.setVisible(true);
+                if (dimensionsDialog.userOkay)
                     {
-                        for (int i=0; i<2; i++)
-                            {
-                                userDimensions[i] = Integer.parseInt(dimensionTokenizer.nextToken());
-                            }
-                        Universe blankUniverse = new Universe(userDimensions[0], userDimensions[1]);
+                        Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
                         setUniverse(blankUniverse);
- 
-                    }
-                catch (NumberFormatException nfe)
-                    {
-                        JOptionPane.showMessageDialog(this, "Regretfully, the program is unable to interpret your input.\n\n Please, try again.", "Error Parsing Dimensions", JOptionPane.ERROR_MESSAGE);                  
                     }
             }
     }
-
 }

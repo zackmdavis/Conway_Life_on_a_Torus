@@ -8,13 +8,15 @@ public class UniversePanel extends JPanel
     public Universe universe;
     public int generationCounter;
     private Cell[][] cells;
-    private Color liveColor = Color.black;
-    private Color deadColor = Color.white;
+    private Color liveColor;
+    private Color deadColor;
 
-    public UniversePanel(Universe u, int cellSize)
+    public UniversePanel(Universe u, int cellSize, Color lc, Color dc)
     {
         universe = u;
         cells = new Cell[universe.rows][universe.cols];
+        liveColor = lc;
+        deadColor = dc;
         UniversePanelListener listener = new UniversePanelListener(this); 
         Dimension size = new Dimension(cellSize, cellSize);
         setLayout(new GridLayout(cells.length, cells[0].length));
@@ -25,9 +27,9 @@ public class UniversePanel extends JPanel
                         Cell cell = new Cell(i, j);
                         cell.setOpaque(true);
                         if (universe.board[i][j]==1)
-                            cell.setBackground(Color.black);
+                            cell.setBackground(lc);
                         else
-                            cell.setBackground(Color.white);
+                            cell.setBackground(dc);
                         cell.addMouseListener(listener);
                         cell.setPreferredSize(size);
                         add(cell);

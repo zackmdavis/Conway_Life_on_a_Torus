@@ -14,7 +14,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public boolean running = false;
 
     public JPanel mainPanel = new JPanel();
-    public UniversePanel universePanel = new UniversePanel(universe, 20);
+    public UniversePanel universePanel = new UniversePanel(universe, 20, Color.black, Color.white);
 
     public JMenuBar menuBar;
 
@@ -94,13 +94,13 @@ public class LifeFrame extends JFrame implements ActionListener
         stop.addActionListener(this);
     }
 
-    private void setUniverse(String specification)
+    private void setUniverse(String specification, Color liveColor, Color deadColor)
     {
         RLEDecoder decoder = new RLEDecoder(specification);
         universe = decoder.toUniverse();
         mainPanel.remove(universePanel);
         mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(universe, 20);
+        universePanel = new UniversePanel(universe, 20, liveColor, deadColor);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         generationLabel.setText("0");
@@ -109,12 +109,12 @@ public class LifeFrame extends JFrame implements ActionListener
         mainPanel.revalidate();
     }
 
-    private void setUniverse(Universe u)
+    private void setUniverse(Universe u, Color liveColor, Color deadColor)
     {
         universe = u;
         mainPanel.remove(universePanel);
         mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(universe, 20);
+        universePanel = new UniversePanel(universe, 20, liveColor, deadColor);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         generationLabel.setText("0");
@@ -159,7 +159,7 @@ public class LifeFrame extends JFrame implements ActionListener
                 if (dimensionsDialog.userOkay)
                     {
                         Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
-                        setUniverse(blankUniverse);
+                        setUniverse(blankUniverse, universePanel.getLiveColor(), universePanel.getDeadColor());
                     }
             }
         else if (e.getSource() == newRandomUniverse)
@@ -170,7 +170,7 @@ public class LifeFrame extends JFrame implements ActionListener
                 if (randomDialog.userOkay)
                     {
                         Universe randomUniverse = new Universe(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
-                        setUniverse(randomUniverse);
+                        setUniverse(randomUniverse, universePanel.getLiveColor(), universePanel.getDeadColor());
                     }
                 
             }

@@ -67,13 +67,23 @@ public class UniversePanel extends JPanel
             }
     }
 
-    public void changeLiveColor(Color newColor)
+    public Color getLiveColor()
+    {
+        return liveColor;
+    }
+
+    public void setLiveColor(Color newColor)
     {
         liveColor = newColor;
         updatePanel();
     }
 
-    public void changeDeadColor(Color newColor)
+    public Color getDeadColor()
+    {
+        return deadColor;
+    }
+
+    public void setDeadColor(Color newColor)
     {
         deadColor = newColor;
         updatePanel();

@@ -190,15 +190,15 @@ public class LifeFrame extends JFrame implements ActionListener
             }
         else if (e.getSource() == chooseLiveColor)
             {
-                Color newColor = colorChooser.showDialog(this, "Live Cell Color", Color.black);
+                Color newColor = colorChooser.showDialog(this, "Live Cell Color", universePanel.getLiveColor());
                 if (newColor != null)
-                    universePanel.changeLiveColor(newColor);
+                    universePanel.setLiveColor(newColor);
             }
         else if (e.getSource() == chooseDeadColor)
             {
-                Color newColor = colorChooser.showDialog(this, "Dead Cell Color", Color.white);
+                Color newColor = colorChooser.showDialog(this, "Dead Cell Color", universePanel.getDeadColor());
                 if (newColor != null)
-                    universePanel.changeDeadColor(newColor);
+                    universePanel.setDeadColor(newColor);
             }
     }
 }

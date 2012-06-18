@@ -6,7 +6,7 @@ public class SpeedDialog extends JDialog implements ActionListener
 {
     protected JPanel mainPanel = new JPanel();
 
-    private JLabel label = new JLabel("Speed");
+    private JLabel label = new JLabel("Speed (generations per second)");
 
     public int tick;
 
@@ -18,13 +18,16 @@ public class SpeedDialog extends JDialog implements ActionListener
     
     boolean userOkay = false;
     
-    public SpeedDialog(Frame owner)
+    public SpeedDialog(Frame owner, int currentTick)
     {
         super(owner, "Change Speed", true);
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
         mainPanel.add(label);
 
+        speedSlider.setValue((int)((double)1000/currentTick));
+        speedSlider.setPaintLabels(true);
+        speedSlider.setLabelTable(speedSlider.createStandardLabels(10, 5));
         mainPanel.add(speedSlider);
 
         mainPanel.add(buttonPanel);

@@ -180,7 +180,7 @@ public class LifeFrame extends JFrame implements ActionListener
             }
         else if (e.getSource() == chooseSpeed)
             {
-                SpeedDialog speedDialog = new SpeedDialog(this);
+                SpeedDialog speedDialog = new SpeedDialog(this, tick);
                 speedDialog.pack();
                 speedDialog.setVisible(true);
                 if (speedDialog.userOkay)

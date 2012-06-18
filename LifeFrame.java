@@ -10,6 +10,8 @@ public class LifeFrame extends JFrame implements ActionListener
     public int[] x_start = {0, 1, 2, 2, 2};
     public int[] y_start = {1, 2, 0, 1, 2};
     public Universe universe = new Universe(10, 25, x_start, y_start);
+    public int tick = 67;
+
     public JPanel mainPanel = new JPanel();
     public UniversePanel universePanel = new UniversePanel(universe, 20);
 
@@ -24,6 +26,7 @@ public class LifeFrame extends JFrame implements ActionListener
     JFileChooser fileChooser;
 
     public JMenu optionsMenu;
+    public JMenuItem chooseSpeed;
     public JMenuItem chooseLiveColor;
     public JMenuItem chooseDeadColor;
     public JColorChooser colorChooser;
@@ -62,6 +65,10 @@ public class LifeFrame extends JFrame implements ActionListener
         menuBar.add(optionsMenu);
 
         colorChooser = new JColorChooser();
+
+        chooseSpeed = new JMenuItem("Choose Speed ...");
+        optionsMenu.add(chooseSpeed);
+        chooseSpeed.addActionListener(this);
 
         chooseLiveColor = new JMenuItem("Choose Live Cell Color ...");
         optionsMenu.add(chooseLiveColor);
@@ -161,6 +168,16 @@ public class LifeFrame extends JFrame implements ActionListener
         else if (e.getSource() == quit)
             {
                 System.exit(0);
+            }
+        else if (e.getSource() == chooseSpeed)
+            {
+                SpeedDialog speedDialog = new SpeedDialog(this);
+                speedDialog.pack();
+                speedDialog.setVisible(true);
+                if (speedDialog.userOkay)
+                    {
+                        tick = speedDialog.tick;
+                    }
             }
         else if (e.getSource() == chooseLiveColor)
             {

@@ -17,6 +17,7 @@ public class LifeFrame extends JFrame implements ActionListener
 
     public JMenu fileMenu;
     public JMenuItem newBlankUniverse;
+    public JMenuItem newRandomUniverse;
     public JMenuItem RLEtoConsole;
     public JMenuItem quit;
     JMenuItem saveRLE;
@@ -48,6 +49,10 @@ public class LifeFrame extends JFrame implements ActionListener
         newBlankUniverse = new JMenuItem("New Blank Universe ...");
         fileMenu.add(newBlankUniverse);
         newBlankUniverse.addActionListener(this);
+
+        newRandomUniverse = new JMenuItem("New Random Universe ...");
+        fileMenu.add(newRandomUniverse);
+        newRandomUniverse.addActionListener(this);
 
         quit = new JMenuItem("Quit");
         fileMenu.add(quit);
@@ -140,6 +145,18 @@ public class LifeFrame extends JFrame implements ActionListener
                         Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
                         setUniverse(blankUniverse);
                     }
+            }
+        else if (e.getSource() == newRandomUniverse)
+            {
+                RandomDialog randomDialog = new RandomDialog(this);
+                randomDialog.pack();
+                randomDialog.setVisible(true);
+                if (randomDialog.userOkay)
+                    {
+                        Universe randomUniverse = new Universe(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
+                        setUniverse(randomUniverse);
+                    }
+                
             }
         else if (e.getSource() == quit)
             {

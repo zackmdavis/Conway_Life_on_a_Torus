@@ -5,7 +5,7 @@ import java.awt.event.*;
 
 public class DimensionsDialog extends JDialog implements ActionListener
 {
-    private JPanel mainPanel = new JPanel();
+    protected JPanel mainPanel = new JPanel();
     
     private JPanel textPanel = new JPanel();
     private JTextField xDimensionInput = new JTextField(4);
@@ -20,7 +20,7 @@ public class DimensionsDialog extends JDialog implements ActionListener
     
     public DimensionsDialog(Frame owner)
     {
-        super(owner, true);
+        super(owner, "New Universe", true);
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
         mainPanel.add(textPanel);

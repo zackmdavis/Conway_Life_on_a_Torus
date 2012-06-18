@@ -54,6 +54,25 @@ public class Universe
         board = b;
     }
 
+    // Randomly seeded universe
+    public Universe(int r, int c, double p)
+    {
+        rows = r;
+        cols = c;
+        board = new int[rows][cols];
+        for (int i=0; i<rows; i++)
+            {
+                for (int j=0; j<cols; j++)
+                    {
+                        double chance = Math.random();
+                        if (chance < p)
+                            board[i][j] = 1;
+                        else
+                            board[i][j] = 0;
+                    }
+            }
+    }
+
     public int neighborhood(int i, int j)
     {
         int live_neighbors = 0;

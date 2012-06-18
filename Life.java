@@ -19,7 +19,7 @@ public class Life
                     {
                         lifeFrame.universe.advanceGeneration();
                         lifeFrame.universePanel.updatePanel();
-                        lifeFrame.incrementGenerationLabel();
+                        lifeFrame.updateGenerationLabel();
                         Thread.sleep(lifeFrame.tick);
                     }
             }

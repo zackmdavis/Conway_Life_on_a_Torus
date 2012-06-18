@@ -123,7 +123,7 @@ public class LifeFrame extends JFrame implements ActionListener
         mainPanel.revalidate();
     }
 
-    public void incrementGenerationLabel()
+    public void updateGenerationLabel()
     {
         generationLabel.setText(Integer.toString(universePanel.generationCounter));
     }
@@ -135,6 +135,7 @@ public class LifeFrame extends JFrame implements ActionListener
             {
                 universe.advanceGeneration();
                 universePanel.updatePanel();
+                updateGenerationLabel();
                 System.out.println("step");
             }
         else if (e.getSource() == go)

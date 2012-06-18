@@ -11,6 +11,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public int[] y_start = {1, 2, 0, 1, 2};
     public Universe universe = new Universe(10, 25, x_start, y_start);
     public int tick = 67;
+    public boolean running = false;
 
     public JPanel mainPanel = new JPanel();
     public UniversePanel universePanel = new UniversePanel(universe, 20);
@@ -35,7 +36,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public JButton step = new JButton("Step");
     public JButton go = new JButton("Go");
     public JButton stop = new JButton("Stop");
-    public boolean running = false;
+    public JLabel generationLabel = new JLabel("0");
 
     public LifeFrame()
     {
@@ -83,6 +84,7 @@ public class LifeFrame extends JFrame implements ActionListener
         buttonPanel.add(step);
         buttonPanel.add(go);
         buttonPanel.add(stop);
+        buttonPanel.add(generationLabel);
         go.setBackground(new Color(125, 240, 160));
         stop.setBackground(new Color(250, 150, 150));
         stop.setEnabled(false);
@@ -101,6 +103,7 @@ public class LifeFrame extends JFrame implements ActionListener
         universePanel = new UniversePanel(universe, 20);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
+        generationLabel.setText("0");
         this.pack();
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -114,9 +117,15 @@ public class LifeFrame extends JFrame implements ActionListener
         universePanel = new UniversePanel(universe, 20);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
+        generationLabel.setText("0");
         this.pack();
         mainPanel.repaint();
         mainPanel.revalidate();
+    }
+
+    public void incrementGenerationLabel()
+    {
+        generationLabel.setText(Integer.toString(universePanel.generationCounter));
     }
 
     @Override

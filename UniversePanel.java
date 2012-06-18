@@ -6,6 +6,7 @@ import java.awt.Color;
 public class UniversePanel extends JPanel
 {
     public Universe universe;
+    public int generationCounter;
     private Cell[][] cells;
     private Color liveColor = Color.black;
     private Color deadColor = Color.white;
@@ -37,6 +38,7 @@ public class UniversePanel extends JPanel
 
     public void updatePanel()
     {
+        generationCounter++;
         for (int i=0; i<cells.length; i++)
             {
                 for (int j=0; j<cells[0].length; j++)

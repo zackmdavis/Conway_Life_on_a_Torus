@@ -1,4 +1,5 @@
 import java.util.StringTokenizer;
+import java.util.Arrays;
 
 public class RLEDecoder
 {
@@ -118,6 +119,7 @@ public class RLEDecoder
 
     public Universe toUniverse()
     {
+        System.out.println(Arrays.toString(universe.board));
         return universe;
     }
 

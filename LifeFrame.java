@@ -22,6 +22,8 @@ public class LifeFrame extends JFrame implements ActionListener
     JMenuItem saveRLE;
     JFileChooser fileChooser;
 
+    JMenuItem testReadRLE;
+
     public JPanel buttonPanel = new JPanel();
     public JButton step = new JButton("Step");
     public JButton go = new JButton("Go");
@@ -52,6 +54,10 @@ public class LifeFrame extends JFrame implements ActionListener
         fileMenu.add(saveRLE);
         saveRLE.addActionListener(this);
         fileChooser = new JFileChooser();
+
+        testReadRLE = new JMenuItem("Test Read RLE");
+        fileMenu.add(testReadRLE);
+        testReadRLE.addActionListener(this);
 
         setJMenuBar(menuBar);
 
@@ -141,6 +147,14 @@ public class LifeFrame extends JFrame implements ActionListener
                         System.out.println("An exception occurred while trying to save a file.");
                     }
             }
+
+        else if (e.getSource() == testReadRLE)
+            {
+                String testRLE = "x = 22, y = 22, rule = b3/s23\n10b2o10b$10b2o10b$5bo10bo5b$4bobo8bobo4b$3bobo3bo2bo3bobo3b$2bobo4bo2b\no4bobo2b$3bo5bo2bo5bo3b3$4b3o8b3o4b$2o18b2o$2o18b2o$4b3o8b3o4b3$3bo5bo\n2bo5bo3b$2bobo4bo2bo4bobo2b$3bobo3bo2bo3bobo3b$4bobo8bobo4b$5bo10bo5b$\n10b2o10b$10b2o!";
+                setUniverse(testRLE);
+            }
+
+
         else if (e.getSource() == newBlankUniverse)
             {
                 String userDimensionInput = JOptionPane.showInputDialog("Enter the horizontal and vertical\ndimensions (separated by a comma)\nof the new universe to be created"

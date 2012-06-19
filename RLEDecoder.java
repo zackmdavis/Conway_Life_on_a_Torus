@@ -3,7 +3,8 @@ import java.util.Arrays;
 
 public class RLEDecoder
 {
-    Universe universe;
+    int rows, cols;
+    int[][] board;
     int xFillCounter;
     int yFillCounter;
 
@@ -23,10 +24,10 @@ public class RLEDecoder
                 headerline = lineTokenizer.nextToken();
             }
         StringTokenizer headerlineTokenizer = new StringTokenizer(headerline, ",");
-        int cols = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
-        int rows = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
-        int[][] board = new int[rows][cols];
+        cols = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
+        rows = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
         
+        board = new int[rows][cols];
         String pattern = "";
         while (lineTokenizer.hasMoreTokens())
             {
@@ -70,6 +71,8 @@ public class RLEDecoder
                         else if (newChar == 'o')
                             {
                                 repeatCounter = Integer.parseInt(repeatDigitBuffer);
+                                repeatDigitBuffer = "";
+                                
                                 for (int r=0; r<repeatCounter; r++)
                                     {
                                         setCell(true);
@@ -79,6 +82,7 @@ public class RLEDecoder
                         else if (newChar == 'b')
                             {
                                 repeatCounter = Integer.parseInt(repeatDigitBuffer);
+                                repeatDigitBuffer = "";
                                 for (int r=0; r<repeatCounter; r++)
                                     {
                                         setCell(false);
@@ -91,11 +95,12 @@ public class RLEDecoder
 
     private void setDeadUntilNewline()
     {
-        while (xFillCounter < universe.cols)
+        while (xFillCounter < cols)
             {
-                universe.board[xFillCounter][yFillCounter] = 0;
+                board[yFillCounter][xFillCounter] = 0;
                 xFillCounter++;
             }
+        xFillCounter = 0;
         yFillCounter++;
     }
 
@@ -107,18 +112,19 @@ public class RLEDecoder
         else
             mark = 0;
 
-        universe.board[xFillCounter][yFillCounter] = mark;
+        board[yFillCounter][xFillCounter] = mark;
         xFillCounter++;
 
-        if (xFillCounter >= universe.cols)
-            {
-                xFillCounter = 0;
-                yFillCounter++;
-            }
+        // if (xFillCounter >= cols)
+        //     {
+        //         xFillCounter = 0;
+        //         yFillCounter++;
+        //     }
     }
 
     public Universe toUniverse()
     {
+        Universe universe = new Universe(rows, cols, board);
         System.out.println(Arrays.toString(universe.board));
         return universe;
     }

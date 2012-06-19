@@ -183,7 +183,7 @@ public class LifeFrame extends JFrame implements ActionListener
 
         else if (e.getSource() == testReadRLE)
             {
-                String testRLE = "x = 22, y = 22, rule = b3/s23\n10b2o10b$10b2o10b$5bo10bo5b$4bobo8bobo4b$3bobo3bo2bo3bobo3b$2bobo4bo2b\no4bobo2b$3bo5bo2bo5bo3b3$4b3o8b3o4b$2o18b2o$2o18b2o$4b3o8b3o4b3$3bo5bo\n2bo5bo3b$2bobo4bo2bo4bobo2b$3bobo3bo2bo3bobo3b$4bobo8bobo4b$5bo10bo5b$\n10b2o10b$10b2o!";
+                String testRLE = "x = 36, y = 13, rule = B3/S23\n24bo11b$22bobo11b$12b2o6b2o12b2o$11bo3bo4b2o12b2o$2o8bo5bo3b2o14b$2o8b\no3bob2o4bobo11b$10bo5bo7bo11b$11bo3bo20b$12b2o$$$$!"; // Glider gun (!) OK
                 setUniverse(testRLE, Color.black, Color.white);
             }
 

@@ -105,21 +105,6 @@ public class LifeFrame extends JFrame implements ActionListener
         stop.addActionListener(this);
     }
 
-    private void setUniverse(String specification, Color liveColor, Color deadColor)
-    {
-        RLEDecoder decoder = new RLEDecoder(specification);
-        universe = decoder.toUniverse();
-        mainPanel.remove(universePanel);
-        mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(universe, 20, liveColor, deadColor);
-        mainPanel.add(universePanel);
-        mainPanel.add(buttonPanel);
-        generationLabel.setText("0");
-        this.pack();
-        mainPanel.repaint();
-        mainPanel.revalidate();
-    }
-
     private void setUniverse(Universe u, Color liveColor, Color deadColor)
     {
         universe = u;
@@ -192,14 +177,22 @@ public class LifeFrame extends JFrame implements ActionListener
                 System.out.println(openFile);
                 try
                     {
-                        //FileReader openReader = new FileReader(openFile);
                         String RLE = new Scanner(openFile).useDelimiter("\\Z").next();
                         RLEDecoder decoder = new RLEDecoder(RLE);
                         setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor());
                     }
+                catch (FileNotFoundException FNFexp)
+                       {
+                           JOptionPane.showMessageDialog(this, "File Not Found Error", "File Not Found Error", JOptionPane.ERROR_MESSAGE);
+                       }
+                catch (RLEDecodingBoundsException RLEDBexp)
+                    {
+                        JOptionPane.showMessageDialog(this, RLEDBexp.getMessage()+"\nThe problematic index was: "+RLEDBexp.getCause().getMessage(), "RLE Decoding Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 catch (Exception exp)
                     {
-                        System.out.println("An exception occurred while trying to open a file.");
+                        JOptionPane.showMessageDialog(this, "There was an error:\n" + exp.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
                     }
             }
         else if (e.getSource() == saveRLE)

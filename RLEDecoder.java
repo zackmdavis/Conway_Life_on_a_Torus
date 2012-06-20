@@ -13,7 +13,7 @@ public class RLEDecoder
         NORMAL, REPEAT
     }
 
-    public RLEDecoder(String specification)
+    public RLEDecoder(String specification) throws RLEDecodingBoundsException
     {
         xFillCounter = 0;
         yFillCounter = 0;
@@ -93,18 +93,25 @@ public class RLEDecoder
             }
     }
 
-    private void setDeadUntilNewline()
+    private void setDeadUntilNewline() throws RLEDecodingBoundsException
     {
         while (xFillCounter < cols)
             {
-                board[yFillCounter][xFillCounter] = 0;
+                try
+                    {
+                        board[yFillCounter][xFillCounter] = 0;
+                    }
+                catch (ArrayIndexOutOfBoundsException AIBexp)
+                    {
+                        throw new RLEDecodingBoundsException(AIBexp, xFillCounter, yFillCounter);
+                    }
                 xFillCounter++;
             }
         xFillCounter = 0;
         yFillCounter++;
     }
 
-    private void setCell(boolean state)
+    private void setCell(boolean state) throws RLEDecodingBoundsException
     {
         int mark;
         if (state)
@@ -112,14 +119,15 @@ public class RLEDecoder
         else
             mark = 0;
 
-        board[yFillCounter][xFillCounter] = mark;
+        try
+            {        
+                board[yFillCounter][xFillCounter] = mark;
+            }
+        catch (ArrayIndexOutOfBoundsException AIBexp)
+            {
+                throw new RLEDecodingBoundsException(AIBexp, xFillCounter, yFillCounter);
+            }
         xFillCounter++;
-
-        // if (xFillCounter >= cols)
-        //     {
-        //         xFillCounter = 0;
-        //         yFillCounter++;
-        //     }
     }
 
     public Universe toUniverse()

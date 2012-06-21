@@ -1,8 +1,10 @@
 import java.util.StringTokenizer;
+import java.util.Arrays;
 
 public class RLEDecoder
 {
-    Universe universe;
+    int rows, cols;
+    int[][] board;
     int xFillCounter;
     int yFillCounter;
 
@@ -11,21 +13,21 @@ public class RLEDecoder
         NORMAL, REPEAT
     }
 
-    public RLEDecoder(String specification)
+    public RLEDecoder(String specification) throws RLEDecodingBoundsException
     {
         xFillCounter = 0;
         yFillCounter = 0;
         StringTokenizer lineTokenizer = new StringTokenizer(specification, "\n");
-        String headerline = "";
-        while (!headerline.contains("x") || !headerline.contains("y"))
+        String headerline = "#";
+        while (headerline.charAt(0) == '#')
             {
                 headerline = lineTokenizer.nextToken();
             }
         StringTokenizer headerlineTokenizer = new StringTokenizer(headerline, ",");
-        int cols = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
-        int rows = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
-        int[][] board = new int[rows][cols];
+        cols = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
+        rows = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
         
+        board = new int[rows][cols];
         String pattern = "";
         while (lineTokenizer.hasMoreTokens())
             {
@@ -69,6 +71,8 @@ public class RLEDecoder
                         else if (newChar == 'o')
                             {
                                 repeatCounter = Integer.parseInt(repeatDigitBuffer);
+                                repeatDigitBuffer = "";
+                                
                                 for (int r=0; r<repeatCounter; r++)
                                     {
                                         setCell(true);
@@ -78,9 +82,20 @@ public class RLEDecoder
                         else if (newChar == 'b')
                             {
                                 repeatCounter = Integer.parseInt(repeatDigitBuffer);
+                                repeatDigitBuffer = "";
                                 for (int r=0; r<repeatCounter; r++)
                                     {
                                         setCell(false);
+                                    }
+                                CT = commandType.NORMAL;
+                            }
+                        else if (newChar == '$')
+                            {
+                                repeatCounter = Integer.parseInt(repeatDigitBuffer);
+                                repeatDigitBuffer = "";
+                                for (int r=0; r<repeatCounter; r++)
+                                    {
+                                        setDeadUntilNewline();
                                     }
                                 CT = commandType.NORMAL;
                             }
@@ -88,17 +103,25 @@ public class RLEDecoder
             }
     }
 
-    private void setDeadUntilNewline()
+    private void setDeadUntilNewline() throws RLEDecodingBoundsException
     {
-        while (xFillCounter < universe.cols)
+        while (xFillCounter < cols)
             {
-                universe.board[xFillCounter][yFillCounter] = 0;
+                try
+                    {
+                        board[yFillCounter][xFillCounter] = 0;
+                    }
+                catch (ArrayIndexOutOfBoundsException AIBexp)
+                    {
+                        throw new RLEDecodingBoundsException(AIBexp, xFillCounter, yFillCounter);
+                    }
                 xFillCounter++;
             }
+        xFillCounter = 0;
         yFillCounter++;
     }
 
-    private void setCell(boolean state)
+    private void setCell(boolean state) throws RLEDecodingBoundsException
     {
         int mark;
         if (state)
@@ -106,19 +129,21 @@ public class RLEDecoder
         else
             mark = 0;
 
-        universe.board[xFillCounter][yFillCounter] = mark;
-        xFillCounter++;
-
-        if (xFillCounter >= universe.cols)
-            {
-                xFillCounter = 0;
-                yFillCounter++;
+        try
+            {        
+                board[yFillCounter][xFillCounter] = mark;
             }
+        catch (ArrayIndexOutOfBoundsException AIBexp)
+            {
+                throw new RLEDecodingBoundsException(AIBexp, xFillCounter, yFillCounter);
+            }
+        xFillCounter++;
     }
 
     public Universe toUniverse()
     {
+        Universe universe = new Universe(rows, cols, board);
+        System.out.println(Arrays.toString(universe.board));
         return universe;
     }
-
 }

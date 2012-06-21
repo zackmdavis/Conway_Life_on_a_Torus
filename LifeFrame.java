@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.awt.Color;
 
 public class LifeFrame extends JFrame implements ActionListener
@@ -10,7 +10,7 @@ public class LifeFrame extends JFrame implements ActionListener
     public int[] x_start = {0, 1, 2, 2, 2};
     public int[] y_start = {1, 2, 0, 1, 2};
     public Universe universe = new Universe(10, 25, x_start, y_start);
-    public int tick = 67;
+    public int tick = 66;
     public boolean running = false;
 
     public JPanel mainPanel = new JPanel();
@@ -19,12 +19,15 @@ public class LifeFrame extends JFrame implements ActionListener
     public JMenuBar menuBar;
 
     public JMenu fileMenu;
+
     public JMenuItem newBlankUniverse;
     public JMenuItem newRandomUniverse;
-    public JMenuItem RLEtoConsole;
+
+    public JMenuItem openRLE;
+    public JMenuItem saveRLE;
+    public JFileChooser fileChooser = new JFileChooser();
+
     public JMenuItem quit;
-    JMenuItem saveRLE;
-    JFileChooser fileChooser;
 
     public JMenu optionsMenu;
     public JMenuItem chooseSpeed;
@@ -57,6 +60,14 @@ public class LifeFrame extends JFrame implements ActionListener
         newRandomUniverse = new JMenuItem("New Random Universe ...");
         fileMenu.add(newRandomUniverse);
         newRandomUniverse.addActionListener(this);
+
+        openRLE = new JMenuItem("Open ...");
+        fileMenu.add(openRLE);
+        openRLE.addActionListener(this);
+
+        saveRLE = new JMenuItem("Save ...");
+        fileMenu.add(saveRLE);
+        saveRLE.addActionListener(this);
 
         quit = new JMenuItem("Quit");
         fileMenu.add(quit);
@@ -92,21 +103,6 @@ public class LifeFrame extends JFrame implements ActionListener
         step.addActionListener(this);
         go.addActionListener(this);
         stop.addActionListener(this);
-    }
-
-    private void setUniverse(String specification, Color liveColor, Color deadColor)
-    {
-        RLEDecoder decoder = new RLEDecoder(specification);
-        universe = decoder.toUniverse();
-        mainPanel.remove(universePanel);
-        mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(universe, 20, liveColor, deadColor);
-        mainPanel.add(universePanel);
-        mainPanel.add(buttonPanel);
-        generationLabel.setText("0");
-        this.pack();
-        mainPanel.repaint();
-        mainPanel.revalidate();
     }
 
     private void setUniverse(Universe u, Color liveColor, Color deadColor)
@@ -173,7 +169,50 @@ public class LifeFrame extends JFrame implements ActionListener
                         Universe randomUniverse = new Universe(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
                         setUniverse(randomUniverse, universePanel.getLiveColor(), universePanel.getDeadColor());
                     }
-                
+            }
+        else if (e.getSource() == openRLE)
+            {
+                int returnVal = fileChooser.showOpenDialog(this);
+                File openFile = fileChooser.getSelectedFile();
+                System.out.println(openFile);
+                try
+                    {
+                        String RLE = new Scanner(openFile).useDelimiter("\\Z").next();
+                        RLEDecoder decoder = new RLEDecoder(RLE);
+                        setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor());
+                    }
+                catch (FileNotFoundException FNFexp)
+                       {
+                           JOptionPane.showMessageDialog(this, "File Not Found Error", "File Not Found Error", JOptionPane.ERROR_MESSAGE);
+                       }
+                catch (RLEDecodingBoundsException RLEDBexp)
+                    {
+                        JOptionPane.showMessageDialog(this, RLEDBexp.getMessage()+"\nThe problematic index was: "+RLEDBexp.getCause().getMessage(), "RLE Decoding Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                catch (Exception exp)
+                    {
+                        JOptionPane.showMessageDialog(this, "There was an error:\n" + exp.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
+                    }
+            }
+        else if (e.getSource() == saveRLE)
+            {
+                int returnVal = fileChooser.showSaveDialog(this);
+                File saveFile = fileChooser.getSelectedFile();
+                System.out.println(saveFile);
+                try
+                    {
+                        PrintWriter RLESaver = new PrintWriter(new FileWriter(saveFile));
+                        RLEEncoder encoder = new RLEEncoder(universe);
+                        String RLE = encoder.getRLE();
+                        System.out.println(RLE);
+                        RLESaver.print(RLE);
+                        RLESaver.close();
+                    }
+                catch(Exception exp)
+                    {
+                        System.out.println("An exception occurred while trying to save a file.");
+                    }
             }
         else if (e.getSource() == quit)
             {

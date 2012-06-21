@@ -89,6 +89,16 @@ public class RLEDecoder
                                     }
                                 CT = commandType.NORMAL;
                             }
+                        else if (newChar == '$')
+                            {
+                                repeatCounter = Integer.parseInt(repeatDigitBuffer);
+                                repeatDigitBuffer = "";
+                                for (int r=0; r<repeatCounter; r++)
+                                    {
+                                        setDeadUntilNewline();
+                                    }
+                                CT = commandType.NORMAL;
+                            }
                     }
             }
     }
@@ -136,5 +146,4 @@ public class RLEDecoder
         System.out.println(Arrays.toString(universe.board));
         return universe;
     }
-
 }

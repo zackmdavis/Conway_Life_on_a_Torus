@@ -18,8 +18,8 @@ public class RLEDecoder
         xFillCounter = 0;
         yFillCounter = 0;
         StringTokenizer lineTokenizer = new StringTokenizer(specification, "\n");
-        String headerline = "";
-        while (!headerline.contains("x") || !headerline.contains("y"))
+        String headerline = "#";
+        while (headerline.charAt(0) == '#')
             {
                 headerline = lineTokenizer.nextToken();
             }

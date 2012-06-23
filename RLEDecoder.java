@@ -4,7 +4,7 @@ import java.util.Arrays;
 public class RLEDecoder
 {
     int rows, cols;
-    int[][] board;
+    Universe.State[][] board;
     int xFillCounter;
     int yFillCounter;
 
@@ -27,7 +27,7 @@ public class RLEDecoder
         cols = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
         rows = Integer.parseInt(headerlineTokenizer.nextToken().replaceAll("[^0-9]", ""));
         
-        board = new int[rows][cols];
+        board = new Universe.State[rows][cols];
         String pattern = "";
         while (lineTokenizer.hasMoreTokens())
             {
@@ -109,7 +109,7 @@ public class RLEDecoder
             {
                 try
                     {
-                        board[yFillCounter][xFillCounter] = 0;
+                        board[yFillCounter][xFillCounter] = Universe.State.DEAD;
                     }
                 catch (ArrayIndexOutOfBoundsException AIBexp)
                     {
@@ -123,11 +123,11 @@ public class RLEDecoder
 
     private void setCell(boolean state) throws RLEDecodingBoundsException
     {
-        int mark;
+        Universe.State mark;
         if (state)
-            mark = 1;
+            mark = Universe.State.ALIVE;
         else
-            mark = 0;
+            mark = Universe.State.DEAD;
 
         try
             {        

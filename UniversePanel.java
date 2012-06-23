@@ -26,7 +26,7 @@ public class UniversePanel extends JPanel
                     {
                         Cell cell = new Cell(i, j);
                         cell.setOpaque(true);
-                        if (universe.board[i][j]==1)
+                        if (universe.board[i][j] == Universe.State.ALIVE)
                             cell.setBackground(lc);
                         else
                             cell.setBackground(dc);
@@ -45,7 +45,7 @@ public class UniversePanel extends JPanel
             {
                 for (int j=0; j<cells[0].length; j++)
                     {
-                        if (universe.board[i][j]==1)
+                        if (universe.board[i][j] == Universe.State.ALIVE)
                             cells[i][j].setBackground(liveColor);
                         else
                             cells[i][j].setBackground(deadColor);
@@ -55,16 +55,16 @@ public class UniversePanel extends JPanel
 
     public void toggleCell(Cell c) 
     {
-        if (universe.board[c.I][c.J] == 1)
+        if (universe.board[c.I][c.J] == Universe.State.ALIVE)
             {
                 System.out.println(c.I + " " + c.J + " OFF");
-                universe.board[c.I][c.J] = 0;
+                universe.board[c.I][c.J] = Universe.State.DEAD;
                 cells[c.I][c.J].setBackground(deadColor);
             }
         else
             {
                 System.out.println(c.I + " " + c.J + " ON");
-                universe.board[c.I][c.J] = 1;
+                universe.board[c.I][c.J] = Universe.State.ALIVE;
                 cells[c.I][c.J].setBackground(liveColor);
             }
     }

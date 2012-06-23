@@ -1,6 +1,5 @@
 public class RLEEncoder
 {
-
     Universe universe;
     StringBuilder builder;
 
@@ -14,7 +13,7 @@ public class RLEEncoder
         builder.append(universe.rows);
         builder.append(", rule = B3/S23\n");
         int charcount = 0;
-        int state = -1;
+        Universe.State state = Universe.State.VOID;
         int run = 0;
         for (int i=0; i<universe.rows; i++)
             {
@@ -35,16 +34,16 @@ public class RLEEncoder
                         else
                             run++;
                     }
-                if (state == 0)
+                if (state == Universe.State.DEAD)
                     {
-                        state = -1;
+                        state = Universe.State.VOID;
                         run = 0;
                     }
-                else if (state == 1)
+                else if (state == Universe.State.ALIVE)
                     {
                         recordRun(state, run);
                         charcount += 2;
-                        state = -1;
+                        state = Universe.State.VOID;
                         run = 0;
                     }
 
@@ -55,12 +54,12 @@ public class RLEEncoder
             }
     }
 
-    private void recordRun(int s, int r)
+    private void recordRun(Universe.State s, int r)
     {
         String st = "";
-        if (s == 0)
+        if (s == Universe.State.DEAD)
             st = "b";
-        else if (s == 1)
+        else if (s == Universe.State.ALIVE)
             st = "o";
         if (st == "b" || st == "o")
             {

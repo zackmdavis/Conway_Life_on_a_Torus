@@ -2,9 +2,14 @@ import java.util.Arrays;
 
 public class Universe
 {
+    enum State
+    {
+        DEAD, ALIVE, VOID
+    }
+
     public int rows;
     public int cols;
-    public int[][] board;
+    public State[][] board;
 
     public Universe(int r, int c, int[] x_initials, int[] y_initials)
     {
@@ -12,7 +17,7 @@ public class Universe
         cols = c;
         int to_place = x_initials.length;
         int placed = 0;
-        board = new int[rows][cols];
+        board = new State[rows][cols];
         for (int i=0; i<rows; i++)
             {
                 for (int j=0; j<cols; j++)
@@ -21,14 +26,14 @@ public class Universe
                             {
                                 if (i == x_initials[placed] && j == y_initials[placed])
                                     {
-                                        board[i][j] = 1;
+                                        board[i][j] = State.ALIVE;
                                         placed++;
                                     }
                                 else
-                                    board[i][j] = 0;
+                                    board[i][j] = State.DEAD;
                             }
                         else
-                            board[i][j] = 0;
+                            board[i][j] = State.DEAD;
                     }
             }
     }
@@ -37,17 +42,17 @@ public class Universe
     {
         rows = r;
         cols = c;
-        board = new int[rows][cols];
+        board = new State[rows][cols];
         for (int i=0; i<rows; i++)
             {
                 for (int j=0; j<cols; j++)
                     {
-                        board[i][j] = 0;
+                        board[i][j] = State.DEAD;
                     }
             }
     }
 
-    public Universe(int r, int c, int[][] b)
+    public Universe(int r, int c, State[][] b)
     {
         rows = r;
         cols = c;
@@ -59,16 +64,16 @@ public class Universe
     {
         rows = r;
         cols = c;
-        board = new int[rows][cols];
+        board = new State[rows][cols];
         for (int i=0; i<rows; i++)
             {
                 for (int j=0; j<cols; j++)
                     {
                         double chance = Math.random();
                         if (chance < p)
-                            board[i][j] = 1;
+                            board[i][j] = State.ALIVE;
                         else
-                            board[i][j] = 0;
+                            board[i][j] = State.DEAD;
                     }
             }
     }
@@ -80,7 +85,7 @@ public class Universe
             {
                 for(int y_offset=-1; y_offset<=1; y_offset++)
                     {
-                        if((board[modulo(i+x_offset,rows)][modulo(j+y_offset,cols)]==1) && (x_offset!=0 || y_offset!=0))
+                        if((board[modulo(i+x_offset, rows)][modulo(j+y_offset, cols)] == State.ALIVE) && (x_offset != 0 || y_offset != 0))
                             live_neighbors++;
                     }
             }
@@ -89,40 +94,40 @@ public class Universe
 
     public void advanceGeneration()
     {
-        int[][] new_board = new int[rows][cols];
+        State[][] new_board = new State[rows][cols];
         for(int i=0; i<rows; i++)
             {
                 for(int j=0; j<cols; j++)
                     {
-                        new_board[i][j] = 0;
+                        new_board[i][j] = State.DEAD;
                     }
             }
         for(int i=0; i<rows; i++)
             {
                 for(int j=0; j<cols; j++)
                     {
-                        if(board[i][j]==1)
+                        if (board[i][j] == State.ALIVE)
                             {
-                                if(neighborhood(i, j)<2)
-                                    new_board[i][j]=0;
-                                else if(neighborhood(i, j)<=3)
-                                    new_board[i][j] = 1;
-                                else if (neighborhood(i, j)>3)
-                                    new_board[i][j] = 0;
+                                if (neighborhood(i, j) < 2)
+                                    new_board[i][j] = State.DEAD;
+                                else if (neighborhood(i, j) <= 3)
+                                    new_board[i][j] = State.ALIVE;
+                                else if (neighborhood(i, j) > 3)
+                                    new_board[i][j] = State.DEAD;
                             }
-                        if(board[i][j]==0)
+                        else if (board[i][j] == State.DEAD)
                             {
-                                if(neighborhood(i, j)==3)
-                                   new_board[i][j] = 1;
+                                if (neighborhood(i, j) == 3)
+                                   new_board[i][j] = State.ALIVE;
                                 else
-                                   new_board[i][j] = 0;
+                                   new_board[i][j] = State.DEAD;
                             }
                     }
             }
-        board =  new_board;
+        board = new_board;
     }
 
-    public static int modulo(int a, int b)
+    private static int modulo(int a, int b)
     {
         return (a%b + b)%b;
     }

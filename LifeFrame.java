@@ -57,6 +57,8 @@ public class LifeFrame extends JFrame implements ActionListener
 
         menuBar = new JMenuBar();
 
+        this.setIconImage(new ImageIcon("titlebar_icon.png").getImage());
+
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);

@@ -196,26 +196,29 @@ public class LifeFrame extends JFrame implements ActionListener
         else if (e.getSource() == openRLE)
             {
                 int returnVal = fileChooser.showOpenDialog(this);
-                File openFile = fileChooser.getSelectedFile();
-                System.out.println(openFile);
-                try
+                if (returnVal == JFileChooser.APPROVE_OPTION)
                     {
-                        String RLE = new Scanner(openFile).useDelimiter("\\Z").next();
-                        RLEDecoder decoder = new RLEDecoder(RLE);
-                        setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor());
-                    }
-                catch (FileNotFoundException FNFexp)
-                       {
-                           JOptionPane.showMessageDialog(this, "File Not Found Error", "File Not Found Error", JOptionPane.ERROR_MESSAGE);
-                       }
-                catch (RLEDecodingBoundsException RLEDBexp)
-                    {
-                        JOptionPane.showMessageDialog(this, RLEDBexp.getMessage()+"\nThe problematic index was: "+RLEDBexp.getCause().getMessage(), "RLE Decoding Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                catch (Exception exp)
-                    {
-                        JOptionPane.showMessageDialog(this, "There was an error:\n" + exp.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-
+                        File openFile = fileChooser.getSelectedFile();
+                        System.out.println(openFile);
+                        try
+                            {
+                                String RLE = new Scanner(openFile).useDelimiter("\\Z").next();
+                                RLEDecoder decoder = new RLEDecoder(RLE);
+                                setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor());
+                            }
+                        catch (FileNotFoundException FNFexp)
+                            {
+                                JOptionPane.showMessageDialog(this, "File Not Found Error", "File Not Found Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        catch (RLEDecodingBoundsException RLEDBexp)
+                            {
+                                JOptionPane.showMessageDialog(this, RLEDBexp.getMessage()+"\nThe problematic index was: "+RLEDBexp.getCause().getMessage(), "RLE Decoding Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        // TODO: Just "Exception"?---be more specific!
+                        catch (Exception exp)
+                            {
+                                JOptionPane.showMessageDialog(this, "There was an error:\n" + exp.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);   
+                            }
                     }
             }
         else if (e.getSource() == saveRLE)

@@ -31,6 +31,7 @@ public class LifeFrame extends JFrame implements ActionListener
 
     public JMenu optionsMenu;
     public JMenuItem chooseSpeed;
+    public JCheckBoxMenuItem toggleBorders;
     public JMenuItem chooseLiveColor;
     public JMenuItem chooseDeadColor;
     public JColorChooser colorChooser;
@@ -48,7 +49,7 @@ public class LifeFrame extends JFrame implements ActionListener
     {
         int[] x_start = {0, 1, 2, 2, 2};
         int[] y_start = {1, 2, 0, 1, 2};
-        universePanel= new UniversePanel(new Universe(10, 25, x_start, y_start), 20, Color.black, Color.white);
+        universePanel = new UniversePanel(new Universe(10, 25, x_start, y_start), 20, Color.black, Color.white, false);
 
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
@@ -94,6 +95,11 @@ public class LifeFrame extends JFrame implements ActionListener
 
         colorChooser = new JColorChooser();
 
+        toggleBorders = new JCheckBoxMenuItem("Toggle Cell Borders");
+        toggleBorders.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
+        optionsMenu.add(toggleBorders);
+        toggleBorders.addActionListener(this);
+
         chooseSpeed = new JMenuItem("Choose Speed ...", KeyEvent.VK_P);
         chooseSpeed.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
         optionsMenu.add(chooseSpeed);
@@ -130,13 +136,14 @@ public class LifeFrame extends JFrame implements ActionListener
      * @param u the universe 
      * @param liveColor the color of the living cells
      * @param deadColor the color of the dead cells
+     * @param borders whether to paint borders on the display cells
      */
-    private void setUniverse(Universe u, Color liveColor, Color deadColor)
+    private void setUniverse(Universe u, Color liveColor, Color deadColor, boolean borders)
     {
         Universe universe = u;
         mainPanel.remove(universePanel);
         mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(universe, 20, liveColor, deadColor);
+        universePanel = new UniversePanel(universe, 20, liveColor, deadColor, borders);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         generationLabel.setText("0");
@@ -182,7 +189,7 @@ public class LifeFrame extends JFrame implements ActionListener
                 if (dimensionsDialog.userOkay)
                     {
                         Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
-                        setUniverse(blankUniverse, universePanel.getLiveColor(), universePanel.getDeadColor());
+                        setUniverse(blankUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
                     }
             }
         else if (e.getSource() == newRandomUniverse)
@@ -193,7 +200,7 @@ public class LifeFrame extends JFrame implements ActionListener
                 if (randomDialog.userOkay)
                     {
                         Universe randomUniverse = new Universe(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
-                        setUniverse(randomUniverse, universePanel.getLiveColor(), universePanel.getDeadColor());
+                        setUniverse(randomUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
                     }
             }
         else if (e.getSource() == openRLE)
@@ -207,7 +214,7 @@ public class LifeFrame extends JFrame implements ActionListener
                             {
                                 String RLE = new Scanner(openFile).useDelimiter("\\Z").next();
                                 RLEDecoder decoder = new RLEDecoder(RLE);
-                                setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor());
+                                setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
                             }
                         catch (FileNotFoundException FNFexp)
                             {
@@ -256,6 +263,13 @@ public class LifeFrame extends JFrame implements ActionListener
                     {
                         tick = speedDialog.tick;
                     }
+            }
+        else if (e.getSource() == toggleBorders)
+            {
+                if (toggleBorders.getState())
+                    universePanel.setBorders(true);
+                else
+                    universePanel.setBorders(false);
             }
         else if (e.getSource() == chooseLiveColor)
             {

@@ -13,6 +13,7 @@ public class UniversePanel extends JPanel
     private Cell[][] cells;
     private Color liveColor;
     private Color deadColor;
+    private boolean borders;
 
     /**
      * Constructs a UniversePanel
@@ -21,13 +22,15 @@ public class UniversePanel extends JPanel
      * @param cellSize the size of the display cells
      * @param lc the color of the living cells
      * @param dc the color of the dead cells
+     * @param b whether to draw display cell borders
      */
-    public UniversePanel(Universe u, int cellSize, Color lc, Color dc)
+    public UniversePanel(Universe u, int cellSize, Color lc, Color dc, boolean b)
     {
         universe = u;
         cells = new Cell[universe.rows][universe.cols];
         liveColor = lc;
         deadColor = dc;
+        borders = b;
         UniversePanelListener listener = new UniversePanelListener(this); 
         Dimension size = new Dimension(cellSize, cellSize);
         setLayout(new GridLayout(cells.length, cells[0].length));
@@ -47,6 +50,8 @@ public class UniversePanel extends JPanel
                         cells[i][j] = cell;
                     }
             }
+        if (borders)
+            setBorders(true);
     }
     
     /**
@@ -118,5 +123,44 @@ public class UniversePanel extends JPanel
     {
         deadColor = newColor;
         updatePanel();
+    }
+
+    public boolean getBorders()
+    {
+        return borders;
+    }
+
+    public void setBorders(boolean b)
+    {
+        if (b)
+            {
+                for (int i=0; i<cells.length-1; i++)
+                    {
+                        for (int j=0; j<cells[0].length-1; j++)
+                            {
+                                cells[i][j].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
+                            }
+                    }
+                for  (int i=0; i<cells.length-1; i++)
+                    {
+                        cells[i][cells[0].length-1].setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.black));
+                    }
+                for  (int j=0; j<cells[0].length-1; j++)
+                    {
+                        cells[cells.length-1][j].setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.black));
+                    }
+                borders = true;
+            }                   
+        else if (!b)
+            {
+                for (int i=0; i<cells.length; i++)
+                    {
+                        for (int j=0; j<cells[0].length; j++)
+                            {
+                                cells[i][j].setBorder(BorderFactory.createEmptyBorder());
+                            }
+                    }
+                borders = false;
+            }
     }
 }

@@ -5,6 +5,9 @@ import java.io.*;
 import java.util.*;
 import java.awt.Color;
 
+/**
+ * the main window of the application
+ */
 public class LifeFrame extends JFrame implements ActionListener
 {
     public int tick = 66;
@@ -38,6 +41,9 @@ public class LifeFrame extends JFrame implements ActionListener
     public JButton stop = new JButton("Stop");
     public JLabel generationLabel = new JLabel("0");
 
+    /**
+     * constructs the main window
+     */
     public LifeFrame()
     {
         int[] x_start = {0, 1, 2, 2, 2};
@@ -106,6 +112,13 @@ public class LifeFrame extends JFrame implements ActionListener
         stop.addActionListener(this);
     }
 
+    /**
+     * Sets the universe.
+     *
+     * @param u the universe 
+     * @param liveColor the color of the living cells
+     * @param deadColor the color of the dead cells
+     */
     private void setUniverse(Universe u, Color liveColor, Color deadColor)
     {
         Universe universe = u;
@@ -130,7 +143,7 @@ public class LifeFrame extends JFrame implements ActionListener
     {
         if (e.getSource() == step)
             {
-                universePanel.updatePanel();
+                universePanel.advanceGeneration();
                 updateGenerationLabel();
                 System.out.println("step");
             }

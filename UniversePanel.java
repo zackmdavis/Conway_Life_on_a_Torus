@@ -3,6 +3,9 @@ import java.awt.GridLayout;
 import java.awt.Dimension;
 import java.awt.Color;
 
+/**
+ * the panel that displays the Universe under consideration
+ */
 public class UniversePanel extends JPanel
 {
     public Universe universe;
@@ -11,6 +14,14 @@ public class UniversePanel extends JPanel
     private Color liveColor;
     private Color deadColor;
 
+    /**
+     * Constructs a UniversePanel
+     *
+     * @param u the Universe to be contained
+     * @param cellSize the size of the display cells
+     * @param lc the color of the living cells
+     * @param dc the color of the dead cells
+     */
     public UniversePanel(Universe u, int cellSize, Color lc, Color dc)
     {
         universe = u;
@@ -38,7 +49,10 @@ public class UniversePanel extends JPanel
             }
     }
 
-    public void updatePanel()
+    /**
+     * Advances the simulation one generation and updates the appearance of the panel correspondingly.
+     */
+    public void advanceGeneration()
     {
         universe.advanceGeneration();
         for (int i=0; i<cells.length; i++)
@@ -54,6 +68,11 @@ public class UniversePanel extends JPanel
         generationCounter++;
     }
 
+    /**
+     * Toggles the state (and appearance) of the designated cell (and display cell) 
+     * 
+     * @param c the designated cell
+     */
     public void toggleCell(Cell c) 
     {
         if (universe.board[c.I][c.J] == Universe.State.ALIVE)
@@ -83,7 +102,7 @@ public class UniversePanel extends JPanel
     public void setLiveColor(Color newColor)
     {
         liveColor = newColor;
-        updatePanel();
+        advanceGeneration();
     }
 
     public Color getDeadColor()
@@ -94,6 +113,6 @@ public class UniversePanel extends JPanel
     public void setDeadColor(Color newColor)
     {
         deadColor = newColor;
-        updatePanel();
+        advanceGeneration();
     }
 }

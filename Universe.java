@@ -1,8 +1,14 @@
 import java.util.Arrays;
 
+/**
+ *  the arena in which Life happens
+ */ 
 public class Universe
 {
-    enum State
+    /**
+     *  the state of a particular cell in the Life universe
+     */
+    public enum State
     {
         DEAD, ALIVE, VOID
     }
@@ -11,6 +17,14 @@ public class Universe
     public int cols;
     public State[][] board;
 
+    /**
+     * Constructs a universe with specified cells alive.
+     * 
+     * @param r the number of rows
+     * @param c the number of columns
+     * @param x_initials the horizontal coordinates of the cells that are initially alive.
+     * @param y_initials the vertical coordinates of the cells that are initially alive
+     */
     public Universe(int r, int c, int[] x_initials, int[] y_initials)
     {
         rows = r;
@@ -38,6 +52,12 @@ public class Universe
             }
     }
 
+    /**
+     * Constructs a Universe with no living cells.
+     *
+     * @param r the number of rows
+     * @param c the number of columns
+     */
     public Universe(int r, int c)
     {
         rows = r;
@@ -52,6 +72,13 @@ public class Universe
             }
     }
 
+    /**
+     * Constructs a universe from a given two-dimensional array of cell states.
+     *
+     * @param r the number of rows
+     * @param c the number of columns
+     * @param b the state array
+     */
     public Universe(int r, int c, State[][] b)
     {
         rows = r;
@@ -59,7 +86,13 @@ public class Universe
         board = b;
     }
 
-    // Randomly seeded universe
+    /**
+     * Constructs a universe with each cell alive or dead with some fixed (independent) probability.
+     *
+     * @param r the number of rows
+     * @param c the number of columns
+     * @param p the probability of a cell starting out alive
+     */
     public Universe(int r, int c, double p)
     {
         rows = r;
@@ -78,6 +111,12 @@ public class Universe
             }
     }
 
+    /**
+     * Counts the number of live neighbors of the indicated cell.
+     *
+     * @param i the horizontal index of the cell under consideration
+     * @param j the vertical index of the cell under consideration
+     */
     public int neighborhood(int i, int j)
     {
         int live_neighbors = 0;
@@ -92,6 +131,9 @@ public class Universe
         return live_neighbors;
     }
 
+    /**
+     * Advances the simulation forward one tick.
+     */
     public void advanceGeneration()
     {
         State[][] new_board = new State[rows][cols];
@@ -127,6 +169,12 @@ public class Universe
         board = new_board;
     }
 
+    /**
+     * modulo operation that has the sign of the divisor (rather than the dividend, as is the case for Java's "%")
+     *
+     * @param a the dividend 
+     * @param b the divisor
+     */
     private static int modulo(int a, int b)
     {
         return (a%b + b)%b;

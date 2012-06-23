@@ -1,5 +1,12 @@
 *.class
 *~
+*.html
+*.rle
+*.css
+*.pdf
+.gitignore
+resources
+package-list
 
 # Package Files #
 *.jar

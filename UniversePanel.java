@@ -40,7 +40,7 @@ public class UniversePanel extends JPanel
 
     public void updatePanel()
     {
-        generationCounter++;
+        universe.advanceGeneration();
         for (int i=0; i<cells.length; i++)
             {
                 for (int j=0; j<cells[0].length; j++)
@@ -51,6 +51,7 @@ public class UniversePanel extends JPanel
                             cells[i][j].setBackground(deadColor);
                     }
             }
+        generationCounter++;
     }
 
     public void toggleCell(Cell c) 
@@ -67,6 +68,11 @@ public class UniversePanel extends JPanel
                 universe.board[c.I][c.J] = Universe.State.ALIVE;
                 cells[c.I][c.J].setBackground(liveColor);
             }
+    }
+
+    public Universe getUniverse()
+    {
+        return universe;
     }
 
     public Color getLiveColor()

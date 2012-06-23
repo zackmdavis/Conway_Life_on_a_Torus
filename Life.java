@@ -17,7 +17,6 @@ public class Life
                 System.out.print("");
                 if (lifeFrame.running)
                     {
-                        lifeFrame.universe.advanceGeneration();
                         lifeFrame.universePanel.updatePanel();
                         lifeFrame.updateGenerationLabel();
                         Thread.sleep(lifeFrame.tick);

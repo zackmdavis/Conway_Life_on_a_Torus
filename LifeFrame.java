@@ -7,14 +7,11 @@ import java.awt.Color;
 
 public class LifeFrame extends JFrame implements ActionListener
 {
-    public int[] x_start = {0, 1, 2, 2, 2};
-    public int[] y_start = {1, 2, 0, 1, 2};
-    public Universe universe = new Universe(10, 25, x_start, y_start);
     public int tick = 66;
     public boolean running = false;
 
     public JPanel mainPanel = new JPanel();
-    public UniversePanel universePanel = new UniversePanel(universe, 20, Color.black, Color.white);
+    public UniversePanel universePanel;
 
     public JMenuBar menuBar;
 
@@ -43,6 +40,10 @@ public class LifeFrame extends JFrame implements ActionListener
 
     public LifeFrame()
     {
+        int[] x_start = {0, 1, 2, 2, 2};
+        int[] y_start = {1, 2, 0, 1, 2};
+        universePanel= new UniversePanel(new Universe(10, 25, x_start, y_start), 20, Color.black, Color.white);
+
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
         mainPanel.add(universePanel);
@@ -107,7 +108,7 @@ public class LifeFrame extends JFrame implements ActionListener
 
     private void setUniverse(Universe u, Color liveColor, Color deadColor)
     {
-        universe = u;
+        Universe universe = u;
         mainPanel.remove(universePanel);
         mainPanel.remove(buttonPanel);
         universePanel = new UniversePanel(universe, 20, liveColor, deadColor);
@@ -129,7 +130,6 @@ public class LifeFrame extends JFrame implements ActionListener
     {
         if (e.getSource() == step)
             {
-                universe.advanceGeneration();
                 universePanel.updatePanel();
                 updateGenerationLabel();
                 System.out.println("step");
@@ -203,7 +203,7 @@ public class LifeFrame extends JFrame implements ActionListener
                 try
                     {
                         PrintWriter RLESaver = new PrintWriter(new FileWriter(saveFile));
-                        RLEEncoder encoder = new RLEEncoder(universe);
+                        RLEEncoder encoder = new RLEEncoder(universePanel.getUniverse());
                         String RLE = encoder.getRLE();
                         System.out.println(RLE);
                         RLESaver.print(RLE);

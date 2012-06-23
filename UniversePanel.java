@@ -48,13 +48,12 @@ public class UniversePanel extends JPanel
                     }
             }
     }
-
+    
     /**
-     * Advances the simulation one generation and updates the appearance of the panel correspondingly.
+     * Updates the appearance of the panel.
      */
-    public void advanceGeneration()
+    public void updatePanel()
     {
-        universe.advanceGeneration();
         for (int i=0; i<cells.length; i++)
             {
                 for (int j=0; j<cells[0].length; j++)
@@ -65,6 +64,11 @@ public class UniversePanel extends JPanel
                             cells[i][j].setBackground(deadColor);
                     }
             }
+    }
+
+    public void advanceGeneration()
+    {
+        universe.advanceGeneration();
         generationCounter++;
     }
 
@@ -102,7 +106,7 @@ public class UniversePanel extends JPanel
     public void setLiveColor(Color newColor)
     {
         liveColor = newColor;
-        advanceGeneration();
+        updatePanel();
     }
 
     public Color getDeadColor()
@@ -113,6 +117,6 @@ public class UniversePanel extends JPanel
     public void setDeadColor(Color newColor)
     {
         deadColor = newColor;
-        advanceGeneration();
+        updatePanel();
     }
 }

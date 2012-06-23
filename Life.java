@@ -18,6 +18,7 @@ public class Life
                 if (lifeFrame.running)
                     {
                         lifeFrame.universePanel.advanceGeneration();
+                        lifeFrame.universePanel.updatePanel();
                         lifeFrame.updateGenerationLabel();
                         Thread.sleep(lifeFrame.tick);
                     }

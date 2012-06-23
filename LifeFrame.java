@@ -154,6 +154,7 @@ public class LifeFrame extends JFrame implements ActionListener
         if (e.getSource() == step)
             {
                 universePanel.advanceGeneration();
+                universePanel.updatePanel();
                 updateGenerationLabel();
                 System.out.println("step");
             }

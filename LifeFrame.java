@@ -58,42 +58,52 @@ public class LifeFrame extends JFrame implements ActionListener
         menuBar = new JMenuBar();
 
         fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
         menuBar.add(fileMenu);
 
-        newBlankUniverse = new JMenuItem("New Blank Universe ...");
+        newBlankUniverse = new JMenuItem("New Blank Universe ...", KeyEvent.VK_N);
         fileMenu.add(newBlankUniverse);
+        newBlankUniverse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
         newBlankUniverse.addActionListener(this);
 
-        newRandomUniverse = new JMenuItem("New Random Universe ...");
+        newRandomUniverse = new JMenuItem("New Random Universe ...", KeyEvent.VK_R);
         fileMenu.add(newRandomUniverse);
+        newRandomUniverse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
         newRandomUniverse.addActionListener(this);
 
-        openRLE = new JMenuItem("Open ...");
+        openRLE = new JMenuItem("Open ...", KeyEvent.VK_O);
+        openRLE.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
         fileMenu.add(openRLE);
         openRLE.addActionListener(this);
 
-        saveRLE = new JMenuItem("Save ...");
+        saveRLE = new JMenuItem("Save ...", KeyEvent.VK_S);
+        saveRLE.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         fileMenu.add(saveRLE);
         saveRLE.addActionListener(this);
 
-        quit = new JMenuItem("Quit");
+        quit = new JMenuItem("Quit", KeyEvent.VK_Q);
+        quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
         fileMenu.add(quit);
         quit.addActionListener(this);
 
         optionsMenu = new JMenu("Options");
+        optionsMenu.setMnemonic(KeyEvent.VK_T);
         menuBar.add(optionsMenu);
 
         colorChooser = new JColorChooser();
 
-        chooseSpeed = new JMenuItem("Choose Speed ...");
+        chooseSpeed = new JMenuItem("Choose Speed ...", KeyEvent.VK_P);
+        chooseSpeed.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
         optionsMenu.add(chooseSpeed);
         chooseSpeed.addActionListener(this);
 
-        chooseLiveColor = new JMenuItem("Choose Live Cell Color ...");
+        chooseLiveColor = new JMenuItem("Choose Live Cell Color ...", KeyEvent.VK_L);
+        chooseLiveColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         optionsMenu.add(chooseLiveColor);
         chooseLiveColor.addActionListener(this);
 
-        chooseDeadColor = new JMenuItem("Choose Dead Cell Color ...");
+        chooseDeadColor = new JMenuItem("Choose Dead Cell Color ...", KeyEvent.VK_D);
+        chooseDeadColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         optionsMenu.add(chooseDeadColor);
         chooseDeadColor.addActionListener(this);
 

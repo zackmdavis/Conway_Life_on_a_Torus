@@ -77,6 +77,11 @@ public class UniversePanel extends JPanel
         generationCounter++;
     }
 
+    public int queryPopulation()
+    {
+        return universe.queryPopulation();
+    }
+
     /**
      * Toggles the state (and appearance) of the designated cell (and display cell) 
      * 

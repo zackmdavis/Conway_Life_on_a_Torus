@@ -170,6 +170,23 @@ public class Universe
     }
 
     /**
+     *  Counts the number of cells that are still alive.
+     */
+    public int queryPopulation()
+    {
+        int population = 0;
+        for (int i=0; i<rows; i++)
+            {
+                for (int j=0; j<cols; j++)
+                    {
+                        if (board[i][j] == State.ALIVE)
+                            population++;
+                    }
+            }
+        return population;
+    }
+
+    /**
      * modulo operation that has the sign of the divisor (rather than the dividend, as is the case for Java's "%")
      *
      * @param a the dividend 

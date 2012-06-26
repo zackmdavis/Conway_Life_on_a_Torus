@@ -41,6 +41,7 @@ public class LifeFrame extends JFrame implements ActionListener
     private JButton go = new JButton("Go");
     private JButton stop = new JButton("Stop");
     private JLabel generationLabel = new JLabel("0");
+    private JLabel populationLabel = new JLabel("5");
 
     /**
      * constructs the main window
@@ -117,6 +118,8 @@ public class LifeFrame extends JFrame implements ActionListener
 
         setJMenuBar(menuBar);
 
+        populationLabel.setForeground(Color.BLUE);
+        buttonPanel.add(populationLabel);
         buttonPanel.add(step);
         buttonPanel.add(go);
         buttonPanel.add(stop);
@@ -147,6 +150,7 @@ public class LifeFrame extends JFrame implements ActionListener
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         generationLabel.setText("0");
+        updatePopulationLabel();
         this.pack();
         mainPanel.repaint();
         mainPanel.revalidate();
@@ -157,6 +161,11 @@ public class LifeFrame extends JFrame implements ActionListener
         generationLabel.setText(Integer.toString(universePanel.generationCounter));
     }
 
+    public void updatePopulationLabel()
+    {
+        populationLabel.setText(Integer.toString(universePanel.queryPopulation()));        
+    }
+
     @Override
     public void actionPerformed(ActionEvent e)
     {
@@ -165,6 +174,7 @@ public class LifeFrame extends JFrame implements ActionListener
                 universePanel.advanceGeneration();
                 universePanel.updatePanel();
                 updateGenerationLabel();
+                updatePopulationLabel();
                 System.out.println("step");
             }
         else if (e.getSource() == go)

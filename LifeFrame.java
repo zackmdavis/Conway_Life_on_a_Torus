@@ -13,34 +13,34 @@ public class LifeFrame extends JFrame implements ActionListener
     public int tick = 66;
     public boolean running = false;
 
-    public JPanel mainPanel = new JPanel();
+    private JPanel mainPanel = new JPanel();
     public UniversePanel universePanel;
 
-    public JMenuBar menuBar;
+    private JMenuBar menuBar;
 
-    public JMenu fileMenu;
+    private JMenu fileMenu;
 
-    public JMenuItem newBlankUniverse;
-    public JMenuItem newRandomUniverse;
+    private JMenuItem newBlankUniverse;
+    private JMenuItem newRandomUniverse;
 
-    public JMenuItem openRLE;
-    public JMenuItem saveRLE;
-    public JFileChooser fileChooser = new JFileChooser();
+    private JMenuItem openRLE;
+    private JMenuItem saveRLE;
+    private JFileChooser fileChooser = new JFileChooser();
 
-    public JMenuItem quit;
+    private JMenuItem quit;
 
-    public JMenu optionsMenu;
-    public JMenuItem chooseSpeed;
-    public JCheckBoxMenuItem toggleBorders;
-    public JMenuItem chooseLiveColor;
-    public JMenuItem chooseDeadColor;
-    public JColorChooser colorChooser;
+    private JMenu optionsMenu;
+    private JMenuItem chooseSpeed;
+    private JCheckBoxMenuItem toggleBorders;
+    private JMenuItem chooseLiveColor;
+    private JMenuItem chooseDeadColor;
+    private JColorChooser colorChooser;
 
-    public JPanel buttonPanel = new JPanel();
-    public JButton step = new JButton("Step");
-    public JButton go = new JButton("Go");
-    public JButton stop = new JButton("Stop");
-    public JLabel generationLabel = new JLabel("0");
+    private JPanel buttonPanel = new JPanel();
+    private JButton step = new JButton("Step");
+    private JButton go = new JButton("Go");
+    private JButton stop = new JButton("Stop");
+    private JLabel generationLabel = new JLabel("0");
 
     /**
      * constructs the main window

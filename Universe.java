@@ -117,7 +117,7 @@ public class Universe
      * @param i the horizontal index of the cell under consideration
      * @param j the vertical index of the cell under consideration
      */
-    public int neighborhood(int i, int j)
+    private int neighborhood(int i, int j)
     {
         int live_neighbors = 0;
         for(int x_offset=-1; x_offset<=1; x_offset++)

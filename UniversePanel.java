@@ -8,7 +8,7 @@ import java.awt.Color;
  */
 public class UniversePanel extends JPanel
 {
-    public Universe universe;
+    private Universe universe;
     public int generationCounter;
     private Cell[][] cells;
     private Color liveColor;

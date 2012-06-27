@@ -1,3 +1,5 @@
+package conwaylifeonatorus;
+
 public class RLEEncoder
 {
     Universe universe;

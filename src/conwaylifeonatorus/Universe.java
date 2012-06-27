@@ -1,3 +1,5 @@
+package conwaylifeonatorus;
+
 import java.util.Arrays;
 
 /**

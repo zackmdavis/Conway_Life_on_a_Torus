@@ -1,3 +1,5 @@
+package conwaylifeonatorus;
+
 import javax.swing.JFrame;
 
 public class Life

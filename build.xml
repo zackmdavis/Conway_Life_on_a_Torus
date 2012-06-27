@@ -6,20 +6,17 @@
   <property name="dist"  location="dist"/>  
 
   <target name="init">
-    <tstamp>
-      <format property="datestamp" pattern="d-MMMM-yyyy"/>
-    </tstamp>
     <mkdir dir="${build}"/>
   </target>
   
   <target name="compile" depends="init" description="compile the source">
-    <copy file="${src}/titlebar_icon.png" tofile="${build}/titlebar_icon.png"/>
     <javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
+    <copy file="${src}/titlebar_icon.png" tofile="${build}/conwaylifeonatorus/titlebar_icon.png"/>
   </target>
 
   <target name="dist" depends="compile" description="generate the distribution" >
     <mkdir dir="${dist}"/>
-    <jar jarfile="${dist}/Conway_Life_on_a_Torus-${datestamp}.jar" basedir="${build}" manifest="${src}/MANIFEST.MF"/>
+    <jar jarfile="${dist}/Conway_Life_on_a_Torus.jar" basedir="${build}" manifest="${src}/manifest.txt"/>
   </target>
 
   <target name="clean" description="clean up" >

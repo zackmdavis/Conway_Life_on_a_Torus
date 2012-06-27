@@ -1,3 +1,5 @@
+package conwaylifeonatorus;
+
 class RLEDecodingBoundsException extends Exception
 {
     public RLEDecodingBoundsException(ArrayIndexOutOfBoundsException AIBexp, int x, int y)

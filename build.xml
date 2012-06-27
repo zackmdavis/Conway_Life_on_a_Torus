@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="Conway Life on a Torus" default="compile" basedir=".">
   
-  <property name="src" value="."/>
+  <property name="src" value="src/conwaylifeonatorus"/>
   <property name="build" value="build"/>
   <property name="dist"  location="dist"/>  
 

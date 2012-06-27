@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="Conway Life on a Torus" default="compile" basedir=".">
+  
+  <property name="src" value="."/>
+  <property name="build" value="build"/>
+  <property name="dist"  location="dist"/>  
+
+  <target name="init">
+    <tstamp>
+      <format property="datestamp" pattern="d-MMMM-yyyy"/>
+    </tstamp>
+    <mkdir dir="${build}"/>
+  </target>
+  
+  <target name="compile" depends="init" description="compile the source">
+    <copy file="${src}/titlebar_icon.png" tofile="${build}/titlebar_icon.png"/>
+    <javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
+  </target>
+
+  <target name="dist" depends="compile" description="generate the distribution" >
+    <mkdir dir="${dist}"/>
+    <jar jarfile="${dist}/Conway_Life_on_a_Torus-${datestamp}.jar" basedir="${build}" manifest="${src}/MANIFEST.MF"/>
+  </target>
+
+  <target name="clean" description="clean up" >
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+</project>

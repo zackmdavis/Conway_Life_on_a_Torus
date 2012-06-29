@@ -10,7 +10,7 @@ import java.awt.Color;
 /**
  * the main window of the application
  */
-public class LifeFrame extends JFrame implements ActionListener
+public class LifeFrame extends JFrame
 {
     public int tick = 66;
     public boolean running = false;
@@ -22,15 +22,15 @@ public class LifeFrame extends JFrame implements ActionListener
 
     private JMenu fileMenu;
 
+    private ActionListener fileMenuListener = new FileMenuListener();
     private JMenuItem newBlankUniverse;
     private JMenuItem newRandomUniverse;
-
     private JMenuItem openRLE;
     private JMenuItem saveRLE;
     private JFileChooser fileChooser = new JFileChooser();
-
     private JMenuItem quit;
 
+    private ActionListener optionsMenuListener = new OptionsMenuListener();
     private JMenu optionsMenu;
     private JMenuItem chooseSpeed;
     private JCheckBoxMenuItem toggleBorders;
@@ -38,6 +38,7 @@ public class LifeFrame extends JFrame implements ActionListener
     private JMenuItem chooseDeadColor;
     private JColorChooser colorChooser;
 
+    private ActionListener controlButtonListener = new ControlButtonListener();
     private JPanel buttonPanel = new JPanel();
     private JButton step = new JButton("Step");
     private JButton go = new JButton("Go");
@@ -71,27 +72,27 @@ public class LifeFrame extends JFrame implements ActionListener
         newBlankUniverse = new JMenuItem("New Blank Universe ...", KeyEvent.VK_N);
         fileMenu.add(newBlankUniverse);
         newBlankUniverse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-        newBlankUniverse.addActionListener(this);
+        newBlankUniverse.addActionListener(fileMenuListener);
 
         newRandomUniverse = new JMenuItem("New Random Universe ...", KeyEvent.VK_R);
         fileMenu.add(newRandomUniverse);
         newRandomUniverse.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
-        newRandomUniverse.addActionListener(this);
+        newRandomUniverse.addActionListener(fileMenuListener);
 
         openRLE = new JMenuItem("Open ...", KeyEvent.VK_O);
         openRLE.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
         fileMenu.add(openRLE);
-        openRLE.addActionListener(this);
+        openRLE.addActionListener(fileMenuListener);
 
         saveRLE = new JMenuItem("Save ...", KeyEvent.VK_S);
         saveRLE.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
         fileMenu.add(saveRLE);
-        saveRLE.addActionListener(this);
+        saveRLE.addActionListener(fileMenuListener);
 
         quit = new JMenuItem("Quit", KeyEvent.VK_Q);
         quit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
         fileMenu.add(quit);
-        quit.addActionListener(this);
+        quit.addActionListener(fileMenuListener);
 
         optionsMenu = new JMenu("Options");
         optionsMenu.setMnemonic(KeyEvent.VK_T);
@@ -102,22 +103,22 @@ public class LifeFrame extends JFrame implements ActionListener
         toggleBorders = new JCheckBoxMenuItem("Toggle Cell Borders");
         toggleBorders.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
         optionsMenu.add(toggleBorders);
-        toggleBorders.addActionListener(this);
+        toggleBorders.addActionListener(optionsMenuListener);
 
         chooseSpeed = new JMenuItem("Choose Speed ...", KeyEvent.VK_P);
         chooseSpeed.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
         optionsMenu.add(chooseSpeed);
-        chooseSpeed.addActionListener(this);
+        chooseSpeed.addActionListener(optionsMenuListener);
 
         chooseLiveColor = new JMenuItem("Choose Live Cell Color ...", KeyEvent.VK_L);
         chooseLiveColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
         optionsMenu.add(chooseLiveColor);
-        chooseLiveColor.addActionListener(this);
+        chooseLiveColor.addActionListener(optionsMenuListener);
 
         chooseDeadColor = new JMenuItem("Choose Dead Cell Color ...", KeyEvent.VK_D);
         chooseDeadColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
         optionsMenu.add(chooseDeadColor);
-        chooseDeadColor.addActionListener(this);
+        chooseDeadColor.addActionListener(optionsMenuListener);
 
         setJMenuBar(menuBar);
 
@@ -131,9 +132,9 @@ public class LifeFrame extends JFrame implements ActionListener
         stop.setBackground(new Color(250, 150, 150));
         stop.setEnabled(false);
         setContentPane(mainPanel);
-        step.addActionListener(this);
-        go.addActionListener(this);
-        stop.addActionListener(this);
+        step.addActionListener(controlButtonListener);
+        go.addActionListener(controlButtonListener);
+        stop.addActionListener(controlButtonListener);
     }
 
     /**
@@ -169,132 +170,151 @@ public class LifeFrame extends JFrame implements ActionListener
         populationLabel.setText(Integer.toString(universePanel.queryPopulation()));        
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e)
+    private class ControlButtonListener implements ActionListener
     {
-        if (e.getSource() == step)
-            {
-                universePanel.advanceGeneration();
-                universePanel.updatePanel();
-                updateGenerationLabel();
-                updatePopulationLabel();
-                System.out.println("step");
-            }
-        else if (e.getSource() == go)
-            {
-                running = true;
-                System.out.println("running = " + running);
-                go.setEnabled(false);
-                stop.setEnabled(true);
-            }
-        else if (e.getSource() == stop)
-            {
-                running = false;
-                System.out.println("running = " + running);
-                stop.setEnabled(false);
-                go.setEnabled(true);
-            }
-        else if (e.getSource() == newBlankUniverse)
-            {
-                DimensionsDialog dimensionsDialog = new DimensionsDialog(this);
-                dimensionsDialog.pack();
-                dimensionsDialog.setVisible(true);
-                if (dimensionsDialog.userOkay)
-                    {
-                        Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
-                        setUniverse(blankUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
-                    }
-            }
-        else if (e.getSource() == newRandomUniverse)
-            {
-                RandomDialog randomDialog = new RandomDialog(this);
-                randomDialog.pack();
-                randomDialog.setVisible(true);
-                if (randomDialog.userOkay)
-                    {
-                        Universe randomUniverse = new Universe(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
-                        setUniverse(randomUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
-                    }
-            }
-        else if (e.getSource() == openRLE)
-            {
-                int returnVal = fileChooser.showOpenDialog(this);
-                if (returnVal == JFileChooser.APPROVE_OPTION)
-                    {
-                        File openFile = fileChooser.getSelectedFile();
-                        System.out.println(openFile);
-                        try
-                            {
-                                String RLE = new Scanner(openFile).useDelimiter("\\Z").next();
-                                RLEDecoder decoder = new RLEDecoder(RLE);
-                                setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
-                            }
-                        catch (FileNotFoundException FNFexp)
-                            {
-                                JOptionPane.showMessageDialog(this, "File Not Found Error", "File Not Found Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        catch (RLEDecodingBoundsException RLEDBexp)
-                            {
-                                JOptionPane.showMessageDialog(this, RLEDBexp.getMessage()+"\nThe problematic index was: "+RLEDBexp.getCause().getMessage(), "RLE Decoding Error", JOptionPane.ERROR_MESSAGE);
-                            }
-                        // TODO: Just "Exception"?---be more specific!
-                        catch (Exception exp)
-                            {
-                                JOptionPane.showMessageDialog(this, "There was an error:\n" + exp.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);   
-                            }
-                    }
-            }
-        else if (e.getSource() == saveRLE)
-            {
-                int returnVal = fileChooser.showSaveDialog(this);
-                File saveFile = fileChooser.getSelectedFile();
-                System.out.println(saveFile);
-                try
-                    {
-                        PrintWriter RLESaver = new PrintWriter(new FileWriter(saveFile));
-                        RLEEncoder encoder = new RLEEncoder(universePanel.getUniverse());
-                        String RLE = encoder.getRLE();
-                        System.out.println(RLE);
-                        RLESaver.print(RLE);
-                        RLESaver.close();
-                    }
-                catch(Exception exp)
-                    {
-                        System.out.println("An exception occurred while trying to save a file.");
-                    }
-            }
-        else if (e.getSource() == quit)
-            {
-                System.exit(0);
-            }
-        else if (e.getSource() == chooseSpeed)
-            {
-                SpeedDialog speedDialog = new SpeedDialog(this, tick);
-                speedDialog.pack();
-                speedDialog.setVisible(true);
-                if (speedDialog.userOkay)
-                    {
-                        tick = speedDialog.tick;
-                    }
-            }
-        else if (e.getSource() == toggleBorders)
-            {
-                if (toggleBorders.getState())
-                    universePanel.setBorders(true);
-                else
-                    universePanel.setBorders(false);
-            }
-        else if (e.getSource() == chooseLiveColor)
-            {
-                Color newColor = colorChooser.showDialog(this, "Live Cell Color", universePanel.getLiveColor());
-                if (newColor != null)
-                    universePanel.setLiveColor(newColor);
-            }
-        else if (e.getSource() == chooseDeadColor)
-            {
-                Color newColor = colorChooser.showDialog(this, "Dead Cell Color", universePanel.getDeadColor());
-                if (newColor != null)
-                    universePanel.setDeadColor(newColor);
-            }
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {
+            if (ae.getSource() == step)
+                {
+                    universePanel.advanceGeneration();
+                    universePanel.updatePanel();
+                    updateGenerationLabel();
+                    updatePopulationLabel();
+                    System.out.println("step");
+                }
+            else if (ae.getSource() == go)
+                {
+                    running = true;
+                    System.out.println("running = " + running);
+                    go.setEnabled(false);
+                    stop.setEnabled(true);
+                }
+            else if (ae.getSource() == stop)
+                {
+                    running = false;
+                    System.out.println("running = " + running);
+                    stop.setEnabled(false);
+                    go.setEnabled(true);
+                }
+        }
+    }
+
+    private class FileMenuListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {
+            if (ae.getSource() == newBlankUniverse)
+                {
+                    DimensionsDialog dimensionsDialog = new DimensionsDialog(LifeFrame.this);
+                    dimensionsDialog.pack();
+                    dimensionsDialog.setVisible(true);
+                    if (dimensionsDialog.userOkay)
+                        {
+                            Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
+                            setUniverse(blankUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
+                        }
+                }
+            else if (ae.getSource() == newRandomUniverse)
+                {
+                    RandomDialog randomDialog = new RandomDialog(LifeFrame.this);
+                    randomDialog.pack();
+                    randomDialog.setVisible(true);
+                    if (randomDialog.userOkay)
+                        {
+                            Universe randomUniverse = new Universe(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
+                            setUniverse(randomUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
+                        }
+                }
+            else if (ae.getSource() == openRLE)
+                {
+                    int returnVal = fileChooser.showOpenDialog(LifeFrame.this);
+                    if (returnVal == JFileChooser.APPROVE_OPTION)
+                        {
+                            File openFile = fileChooser.getSelectedFile();
+                            System.out.println(openFile);
+                            try
+                                {
+                                    String RLE = new Scanner(openFile).useDelimiter("\\Z").next();
+                                    RLEDecoder decoder = new RLEDecoder(RLE);
+                                    setUniverse(decoder.toUniverse(), universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
+                                }
+                            catch (FileNotFoundException FNFexp)
+                                {
+                                    JOptionPane.showMessageDialog(LifeFrame.this, "File Not Found Error", "File Not Found Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            catch (RLEDecodingBoundsException RLEDBexp)
+                                {
+                                    JOptionPane.showMessageDialog(LifeFrame.this, RLEDBexp.getMessage()+"\nThe problematic index was: "+RLEDBexp.getCause().getMessage(), "RLE Decoding Error", JOptionPane.ERROR_MESSAGE);
+                                }
+                            // TODO: Just "Exception"?---be more specific!
+                            catch (Exception exp)
+                                {
+                                    JOptionPane.showMessageDialog(LifeFrame.this, "There was an error:\n" + exp.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);   
+                                }
+                        }
+                }
+            else if (ae.getSource() == saveRLE)
+                {
+                    int returnVal = fileChooser.showSaveDialog(LifeFrame.this);
+                    File saveFile = fileChooser.getSelectedFile();
+                    System.out.println(saveFile);
+                    try
+                        {
+                            PrintWriter RLESaver = new PrintWriter(new FileWriter(saveFile));
+                            RLEEncoder encoder = new RLEEncoder(universePanel.getUniverse());
+                            String RLE = encoder.getRLE();
+                            System.out.println(RLE);
+                            RLESaver.print(RLE);
+                            RLESaver.close();
+                        }
+                    catch(Exception exp)
+                        {
+                            System.out.println("An exception occurred while trying to save a file.");
+                        }
+                }
+            else if (ae.getSource() == quit)
+                {
+                    System.exit(0);
+                }   
+        }
+    }
+
+    private class OptionsMenuListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {        
+            if (ae.getSource() == chooseSpeed)
+                {
+                    SpeedDialog speedDialog = new SpeedDialog(LifeFrame.this, tick);
+                    speedDialog.pack();
+                    speedDialog.setVisible(true);
+                    if (speedDialog.userOkay)
+                        {
+                            tick = speedDialog.tick;
+                        }
+                }
+            else if (ae.getSource() == toggleBorders)
+                {
+                    if (toggleBorders.getState())
+                        universePanel.setBorders(true);
+                    else
+                        universePanel.setBorders(false);
+                }
+            else if (ae.getSource() == chooseLiveColor)
+                {
+                    Color newColor = colorChooser.showDialog(LifeFrame.this, "Live Cell Color", universePanel.getLiveColor());
+                    if (newColor != null)
+                        universePanel.setLiveColor(newColor);
+                }
+            else if (ae.getSource() == chooseDeadColor)
+                {
+                    Color newColor = colorChooser.showDialog(LifeFrame.this, "Dead Cell Color", universePanel.getDeadColor());
+                    if (newColor != null)
+                        universePanel.setDeadColor(newColor);
+                }
+        }
     }
 }

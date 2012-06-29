@@ -7,12 +7,24 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+class DisplayCell extends JLabel
+{
+    public int I;
+    public int J;
+    public DisplayCell(int i, int j)
+        {
+            I = i;
+            J = j;
+        }
+}
+
 /**
  * the panel that displays the Universe under consideration
  */
 public class UniversePanel extends JPanel
 {
     private Universe universe;
+    public LifeFrame parentFrame;
     public int generationCounter;
     private DisplayCell[][] displayCells;
     private Color liveColor;
@@ -28,8 +40,9 @@ public class UniversePanel extends JPanel
      * @param dc the color of the dead cells
      * @param b whether to draw display cell borders
      */
-    public UniversePanel(Universe u, int displayCellSize, Color lc, Color dc, boolean b)
+    public UniversePanel(LifeFrame pf, Universe u, int displayCellSize, Color lc, Color dc, boolean b)
     {
+        parentFrame = pf;
         universe = u;
         displayCells = new DisplayCell[universe.rows][universe.cols];
         liveColor = lc;
@@ -98,12 +111,14 @@ public class UniversePanel extends JPanel
                 System.out.println(c.I + " " + c.J + " OFF");
                 universe.board[c.I][c.J] = Universe.State.DEAD;
                 displayCells[c.I][c.J].setBackground(deadColor);
+                parentFrame.decrementPopulationLabel();
             }
         else
             {
                 System.out.println(c.I + " " + c.J + " ON");
                 universe.board[c.I][c.J] = Universe.State.ALIVE;
                 displayCells[c.I][c.J].setBackground(liveColor);
+                parentFrame.incrementPopulationLabel();
             }
     }
 
@@ -181,5 +196,4 @@ public class UniversePanel extends JPanel
             toggleDisplayCell((DisplayCell)e.getSource());
         }
     }
-
 }

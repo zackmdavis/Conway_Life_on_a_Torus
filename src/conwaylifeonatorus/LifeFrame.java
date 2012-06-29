@@ -53,7 +53,7 @@ public class LifeFrame extends JFrame
     {
         int[] x_start = {0, 1, 2, 2, 2};
         int[] y_start = {1, 2, 0, 1, 2};
-        universePanel = new UniversePanel(new Universe(10, 25, x_start, y_start), 20, Color.black, Color.white, false);
+        universePanel = new UniversePanel(this, new Universe(10, 25, x_start, y_start), 20, Color.black, Color.white, false);
 
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
@@ -150,7 +150,7 @@ public class LifeFrame extends JFrame
         Universe universe = u;
         mainPanel.remove(universePanel);
         mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(universe, 20, liveColor, deadColor, borders);
+        universePanel = new UniversePanel(this, universe, 20, liveColor, deadColor, borders);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         generationLabel.setText("0");
@@ -167,7 +167,21 @@ public class LifeFrame extends JFrame
 
     public void updatePopulationLabel()
     {
-        populationLabel.setText(Integer.toString(universePanel.queryPopulation()));        
+        populationLabel.setText(Integer.toString(universePanel.queryPopulation()));
+    }
+
+    public void incrementPopulationLabel()
+    {
+        int population = Integer.parseInt(populationLabel.getText());
+        population++;
+        populationLabel.setText(Integer.toString(population));
+    }
+
+    public void decrementPopulationLabel()
+    {
+        int population = Integer.parseInt(populationLabel.getText());
+        population--;
+        populationLabel.setText(Integer.toString(population));        
     }
 
     private class ControlButtonListener implements ActionListener

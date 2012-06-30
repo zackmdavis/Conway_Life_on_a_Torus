@@ -32,10 +32,12 @@ public class LifeFrame extends JFrame
 
     private ActionListener optionsMenuListener = new OptionsMenuListener();
     private JMenu optionsMenu;
-    private JMenuItem chooseSpeed;
     private JCheckBoxMenuItem toggleBorders;
-    private JMenuItem chooseLiveColor;
-    private JMenuItem chooseDeadColor;
+    private JCheckBoxMenuItem togglePopulationCounter;
+    private JCheckBoxMenuItem toggleGenerationCounter;
+    private JMenuItem selectSpeed;
+    private JMenuItem selectLiveColor;
+    private JMenuItem selectDeadColor;
     private JColorChooser colorChooser;
 
     private ActionListener controlButtonListener = new ControlButtonListener();
@@ -43,8 +45,8 @@ public class LifeFrame extends JFrame
     private JButton step = new JButton("Step");
     private JButton go = new JButton("Go");
     private JButton stop = new JButton("Stop");
-    private JLabel generationLabel = new JLabel("0");
     private JLabel populationLabel = new JLabel("5");
+    private JLabel generationLabel = new JLabel("0");
 
     /**
      * constructs the main window
@@ -102,23 +104,41 @@ public class LifeFrame extends JFrame
 
         toggleBorders = new JCheckBoxMenuItem("Toggle Cell Borders");
         toggleBorders.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
+        toggleBorders.setMnemonic(KeyEvent.VK_B);
         optionsMenu.add(toggleBorders);
         toggleBorders.addActionListener(optionsMenuListener);
 
-        chooseSpeed = new JMenuItem("Choose Speed ...", KeyEvent.VK_P);
-        chooseSpeed.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
-        optionsMenu.add(chooseSpeed);
-        chooseSpeed.addActionListener(optionsMenuListener);
+        togglePopulationCounter = new JCheckBoxMenuItem("Toggle Population Counter");
+        togglePopulationCounter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+        togglePopulationCounter.setMnemonic(KeyEvent.VK_P);
+        togglePopulationCounter.setState(true);
+        optionsMenu.add(togglePopulationCounter);
+        togglePopulationCounter.addActionListener(optionsMenuListener);
 
-        chooseLiveColor = new JMenuItem("Choose Live Cell Color ...", KeyEvent.VK_L);
-        chooseLiveColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-        optionsMenu.add(chooseLiveColor);
-        chooseLiveColor.addActionListener(optionsMenuListener);
+        toggleGenerationCounter = new JCheckBoxMenuItem("Toggle Generation Counter");
+        toggleGenerationCounter.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK));
+        toggleGenerationCounter.setMnemonic(KeyEvent.VK_G);
+        toggleGenerationCounter.setDisplayedMnemonicIndex(7);
+        toggleGenerationCounter.setState(true);
+        optionsMenu.add(toggleGenerationCounter);
+        toggleGenerationCounter.addActionListener(optionsMenuListener);
 
-        chooseDeadColor = new JMenuItem("Choose Dead Cell Color ...", KeyEvent.VK_D);
-        chooseDeadColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        optionsMenu.add(chooseDeadColor);
-        chooseDeadColor.addActionListener(optionsMenuListener);
+        selectSpeed = new JMenuItem("Select Speed ...");
+        selectSpeed.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+        System.out.println("speed TEST 1: " + selectSpeed.getDisplayedMnemonicIndex());
+        optionsMenu.add(selectSpeed);
+        selectSpeed.addActionListener(optionsMenuListener);
+
+        selectLiveColor = new JMenuItem("Select Live Cell Color ...", KeyEvent.VK_L);
+        selectLiveColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+        System.out.println("live TEST 2: " + selectLiveColor.getDisplayedMnemonicIndex());
+        optionsMenu.add(selectLiveColor);
+        selectLiveColor.addActionListener(optionsMenuListener);
+
+        selectDeadColor = new JMenuItem("Select Dead Cell Color ...", KeyEvent.VK_D);
+        selectDeadColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
+        optionsMenu.add(selectDeadColor);
+        selectDeadColor.addActionListener(optionsMenuListener);
 
         setJMenuBar(menuBar);
 
@@ -300,7 +320,28 @@ public class LifeFrame extends JFrame
         @Override
         public void actionPerformed(ActionEvent ae)
         {        
-            if (ae.getSource() == chooseSpeed)
+            if (ae.getSource() == toggleBorders)
+                {
+                    if (toggleBorders.getState())
+                        universePanel.setBorders(true);
+                    else
+                        universePanel.setBorders(false);
+                }
+            else if (ae.getSource() == togglePopulationCounter)
+                {
+                    if (togglePopulationCounter.getState())
+                        populationLabel.setVisible(true);
+                    else
+                        populationLabel.setVisible(false);
+                }
+            else if (ae.getSource() == toggleGenerationCounter)
+                {
+                    if (toggleGenerationCounter.getState())
+                        generationLabel.setVisible(true);
+                    else
+                        generationLabel.setVisible(false);
+                }
+            else if (ae.getSource() == selectSpeed)
                 {
                     SpeedDialog speedDialog = new SpeedDialog(LifeFrame.this, tick);
                     speedDialog.pack();
@@ -310,20 +351,13 @@ public class LifeFrame extends JFrame
                             tick = speedDialog.tick;
                         }
                 }
-            else if (ae.getSource() == toggleBorders)
-                {
-                    if (toggleBorders.getState())
-                        universePanel.setBorders(true);
-                    else
-                        universePanel.setBorders(false);
-                }
-            else if (ae.getSource() == chooseLiveColor)
+            else if (ae.getSource() == selectLiveColor)
                 {
                     Color newColor = colorChooser.showDialog(LifeFrame.this, "Live Cell Color", universePanel.getLiveColor());
                     if (newColor != null)
                         universePanel.setLiveColor(newColor);
                 }
-            else if (ae.getSource() == chooseDeadColor)
+            else if (ae.getSource() == selectDeadColor)
                 {
                     Color newColor = colorChooser.showDialog(LifeFrame.this, "Dead Cell Color", universePanel.getDeadColor());
                     if (newColor != null)

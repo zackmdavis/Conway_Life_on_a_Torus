@@ -40,11 +40,13 @@ public class LifeFrame extends JFrame
     private JMenuItem selectDeadColor;
     private JColorChooser colorChooser;
 
-    private ActionListener controlButtonListener = new ControlButtonListener();
+    private StepAction stepAction = new StepAction("Step");
+    private GoAction goAction = new GoAction("Go");
+    private StopAction stopAction = new StopAction("Stop");
     private JPanel buttonPanel = new JPanel();
-    private JButton step = new JButton("Step");
-    private JButton go = new JButton("Go");
-    private JButton stop = new JButton("Stop");
+    private JButton step = new JButton(stepAction);
+    private JButton go = new JButton(goAction);
+    private JButton stop = new JButton(stopAction);
     private JLabel populationLabel = new JLabel("5");
     private JLabel generationLabel = new JLabel("0");
 
@@ -125,13 +127,11 @@ public class LifeFrame extends JFrame
 
         selectSpeed = new JMenuItem("Select Speed ...");
         selectSpeed.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
-        System.out.println("speed TEST 1: " + selectSpeed.getDisplayedMnemonicIndex());
         optionsMenu.add(selectSpeed);
         selectSpeed.addActionListener(optionsMenuListener);
 
         selectLiveColor = new JMenuItem("Select Live Cell Color ...", KeyEvent.VK_L);
         selectLiveColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-        System.out.println("live TEST 2: " + selectLiveColor.getDisplayedMnemonicIndex());
         optionsMenu.add(selectLiveColor);
         selectLiveColor.addActionListener(optionsMenuListener);
 
@@ -150,11 +150,17 @@ public class LifeFrame extends JFrame
         buttonPanel.add(generationLabel);
         go.setBackground(new Color(125, 240, 160));
         stop.setBackground(new Color(250, 150, 150));
-        stop.setEnabled(false);
         setContentPane(mainPanel);
-        step.addActionListener(controlButtonListener);
-        go.addActionListener(controlButtonListener);
-        stop.addActionListener(controlButtonListener);
+
+        step.getInputMap().put(KeyStroke.getKeyStroke("UP"), "step");
+        step.getActionMap().put("step", stepAction);
+        // The Step and Stop keybindings work, but not the Go
+        // binding?!?---might have something to do with my kludgey
+        // timer design?
+        go.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "go");
+        go.getActionMap().put("go", goAction);
+        stop.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "stop");
+        stop.getActionMap().put("stop", stopAction);
     }
 
     /**
@@ -204,33 +210,51 @@ public class LifeFrame extends JFrame
         populationLabel.setText(Integer.toString(population));        
     }
 
-    private class ControlButtonListener implements ActionListener
+    private class StepAction extends AbstractAction
     {
-        @Override
+        StepAction(String text)
+        {
+            super(text);
+        }
+
         public void actionPerformed(ActionEvent ae)
         {
-            if (ae.getSource() == step)
-                {
-                    universePanel.advanceGeneration();
-                    universePanel.updatePanel();
-                    updateGenerationLabel();
-                    updatePopulationLabel();
-                    System.out.println("step");
-                }
-            else if (ae.getSource() == go)
-                {
-                    running = true;
-                    System.out.println("running = " + running);
-                    go.setEnabled(false);
-                    stop.setEnabled(true);
-                }
-            else if (ae.getSource() == stop)
-                {
-                    running = false;
-                    System.out.println("running = " + running);
-                    stop.setEnabled(false);
-                    go.setEnabled(true);
-                }
+            universePanel.advanceGeneration();
+            universePanel.updatePanel();
+            updateGenerationLabel();
+            updatePopulationLabel();
+        }
+
+    }
+
+    private class GoAction extends AbstractAction
+    {
+        GoAction(String text)
+        {
+            super(text);
+        }
+
+        public void actionPerformed(ActionEvent ae)
+        {
+            running = true;
+            stopAction.setEnabled(true);
+            this.setEnabled(false);
+        }
+    }
+
+    private class StopAction extends AbstractAction
+    {
+        StopAction(String text)
+        {
+            super(text);
+            this.setEnabled(false);
+        }
+
+        public void actionPerformed(ActionEvent ae)
+        {
+            running = false;
+            goAction.setEnabled(true);
+            this.setEnabled(false);
         }
     }
 

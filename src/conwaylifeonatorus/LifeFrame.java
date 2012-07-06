@@ -150,7 +150,10 @@ public class LifeFrame extends JFrame
         buttonPanel.add(generationLabel);
         go.setBackground(new Color(125, 240, 160));
         stop.setBackground(new Color(250, 150, 150));
-        setContentPane(mainPanel);
+        Font serifBold = new Font("Serif", Font.BOLD, 14);
+        step.setFont(serifBold);
+        go.setFont(serifBold);
+        stop.setFont(serifBold);
 
         step.getInputMap().put(KeyStroke.getKeyStroke("UP"), "step");
         step.getActionMap().put("step", stepAction);
@@ -161,6 +164,8 @@ public class LifeFrame extends JFrame
         go.getActionMap().put("go", goAction);
         stop.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "stop");
         stop.getActionMap().put("stop", stopAction);
+
+        setContentPane(mainPanel);
     }
 
     /**

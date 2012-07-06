@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import java.awt.Color;
+import java.net.URL;
 
 /**
  * the main window of the application
@@ -66,8 +66,8 @@ public class LifeFrame extends JFrame
 
         menuBar = new JMenuBar();
 
-        // TODO: make icon work within jarfile
-        //this.setIconImage(new ImageIcon("titlebar_icon.png").getImage());
+        URL titlebarIconURL = this.getClass().getResource("resources/titlebar_icon.png");
+        this.setIconImage(new ImageIcon(titlebarIconURL).getImage());
 
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);

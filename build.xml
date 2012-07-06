@@ -11,7 +11,8 @@
   
   <target name="compile" depends="init" description="compile the source">
     <javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
-    <copy file="${src}/titlebar_icon.png" tofile="${build}/titlebar_icon.png"/>
+    <mkdir dir="${build}/conwaylifeonatorus/resources"/>
+    <copy file="${src}/conwaylifeonatorus/resources/titlebar_icon.png" tofile="${build}/conwaylifeonatorus/resources/titlebar_icon.png"/>
   </target>
 
   <target name="dist" depends="compile" description="generate the distribution">

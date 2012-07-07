@@ -33,8 +33,8 @@ public class DimensionsDialog extends JDialog implements ActionListener
         mainPanel.add(inputPanel);
         mainPanel.add(buttonPanel);
         
-        rowsInput = new JSpinner(new SpinnerNumberModel(dims.height, 0, 500, 1));
-        colsInput = new JSpinner(new SpinnerNumberModel(dims.width, 0, 500, 1));
+        rowsInput = new JSpinner(new SpinnerNumberModel(dims.height, 0, 100, 1));
+        colsInput = new JSpinner(new SpinnerNumberModel(dims.width, 0, 100, 1));
 
         inputPanel.add(new JLabel("Enter Height: "));
         inputPanel.add(rowsInput);

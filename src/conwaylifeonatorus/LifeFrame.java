@@ -178,10 +178,21 @@ public class LifeFrame extends JFrame
         setContentPane(mainPanel);
     }
 
+    private static int computeDisplayCellSize(Dimension dims)
+    {
+        int maxWidth = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width - 130;
+        int maxHeight = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height - 130;
+        int fullCols = maxWidth/dims.width;
+        int fullRows = maxHeight/dims.height;
+        int fullSide = (fullCols < fullRows) ? fullCols : fullRows;
+        return (fullSide < 20) ? fullSide : 20; 
+    }
+
     /**
      * Sets the universe.
      *
      * @param u the universe 
+     * @param displayCellSize the size of the display cells
      * @param liveColor the color of the living cells
      * @param deadColor the color of the dead cells
      * @param borders whether to paint borders on the display cells
@@ -191,7 +202,7 @@ public class LifeFrame extends JFrame
         Universe universe = u;
         mainPanel.remove(universePanel);
         mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(this, universe, 20, liveColor, deadColor, borders);
+        universePanel = new UniversePanel(this, universe, computeDisplayCellSize(new Dimension(u.cols, u.rows)), liveColor, deadColor, borders);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         generationLabel.setText("0");

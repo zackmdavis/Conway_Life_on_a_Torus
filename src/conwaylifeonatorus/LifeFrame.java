@@ -9,14 +9,27 @@ import java.net.URL;
 
 /**
  * the main window of the application
+ *
+ * @author Zack M. Davis
  */
 public class LifeFrame extends JFrame
 {
+    /**
+     * the clock speed of the simulation
+     */
     public int tick = 66;
+
+    /**
+     * whether the simulation is running right now
+     */
     public boolean running = false;
 
-    private JPanel mainPanel = new JPanel();
+    /**
+     * the underlying universe panel
+     */
     public UniversePanel universePanel;
+
+    private JPanel mainPanel = new JPanel();
 
     private JMenuBar menuBar;
 
@@ -51,7 +64,7 @@ public class LifeFrame extends JFrame
     private JLabel generationLabel = new JLabel("0");
 
     /**
-     * constructs the main window
+     * Constructs the main window.
      */
     public LifeFrame()
     {
@@ -188,16 +201,25 @@ public class LifeFrame extends JFrame
         mainPanel.revalidate();
     }
 
+    /**
+     * Updates the generation label.
+     */
     public void updateGenerationLabel()
     {
         generationLabel.setText(Integer.toString(universePanel.generationCounter));
     }
 
+    /**
+     * Updates the population label.
+     */
     public void updatePopulationLabel()
     {
         populationLabel.setText(Integer.toString(universePanel.queryPopulation()));
     }
 
+    /**
+     * Increments the population label by one.
+     */
     public void incrementPopulationLabel()
     {
         int population = Integer.parseInt(populationLabel.getText());
@@ -205,6 +227,9 @@ public class LifeFrame extends JFrame
         populationLabel.setText(Integer.toString(population));
     }
 
+    /**
+     * Decrements the population label by one.
+     */
     public void decrementPopulationLabel()
     {
         int population = Integer.parseInt(populationLabel.getText());

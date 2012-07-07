@@ -3,6 +3,11 @@ package conwaylifeonatorus;
 import java.util.StringTokenizer;
 import java.util.Arrays;
 
+/**
+ * Reinstantiates a universe from its <a href="http://conwaylife.com/wiki/RLE">run length encoded</a> representation.
+ *
+ * @author Zack M. Davis 
+ */
 public class RLEDecoder
 {
     int rows, cols;

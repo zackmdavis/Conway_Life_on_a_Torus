@@ -3,7 +3,8 @@
   
   <property name="src" value="src/"/>
   <property name="build" value="build/"/>
-  <property name="dist"  location="dist"/>  
+  <property name="dist"  location="dist"/>
+  <property name="docs" value="docs/"/>
 
   <target name="init">
     <mkdir dir="${build}"/>
@@ -20,9 +21,15 @@
     <jar jarfile="${dist}/Conway_Life_on_a_Torus.jar" basedir="${build}" manifest="${src}/manifest.txt"/>
   </target>
 
+  <target name="docs" description="generate the Javadoc documentation">
+    <mkdir dir="${docs}"/>
+    <javadoc sourcepath="${src}" destdir="${docs}"/>
+  </target>
+
   <target name="clean" description="clean up">
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
+    <delete dir="${docs}"/>
   </target>
 
 </project>

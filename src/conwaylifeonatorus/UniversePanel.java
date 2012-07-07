@@ -35,7 +35,7 @@ public class UniversePanel extends JPanel
      * Constructs a UniversePanel
      *
      * @param u the Universe to be contained
-     * @param cellSize the size of the display cells
+     * @param displayCellSize the size of the display cells
      * @param lc the color of the living cells
      * @param dc the color of the dead cells
      * @param b whether to draw display cell borders
@@ -88,19 +88,25 @@ public class UniversePanel extends JPanel
             }
     }
 
+    /**
+     * Advances the simulation forward one generation.
+     */
     public void advanceGeneration()
     {
         universe.advanceGeneration();
         generationCounter++;
     }
 
+    /**
+     * Queries the underlying universe for the population.
+     */
     public int queryPopulation()
     {
         return universe.queryPopulation();
     }
 
     /**
-     * Toggles the state (and appearance) of the designated cell (and display cell) 
+     * Toggles the state (and appearance) of the designated cell (and display cell).
      * 
      * @param c the designated cell
      */
@@ -122,38 +128,65 @@ public class UniversePanel extends JPanel
             }
     }
 
+    /**
+     * Returns the underlying universe.
+     */
     public Universe getUniverse()
     {
         return universe;
     }
 
+    /**
+     * Returns the designated display color for living cells.
+     */
     public Color getLiveColor()
     {
         return liveColor;
     }
 
+    /**
+     * Sets the designated display color for living cells.
+     * 
+     * @param newColor the new display color for living cells
+     */
     public void setLiveColor(Color newColor)
     {
         liveColor = newColor;
         updatePanel();
     }
 
+    /**
+     * Returns the designated display color for dead cells.
+     */
     public Color getDeadColor()
     {
         return deadColor;
     }
 
+    /**
+     * Sets the designated display color for dead cells.
+     * 
+     * @param newColor the new display color for dead cells
+     */
     public void setDeadColor(Color newColor)
     {
         deadColor = newColor;
         updatePanel();
     }
 
+    /**
+     * Reports whether borders are being displayed.
+     */
     public boolean getBorders()
     {
         return borders;
     }
 
+    /**
+     * Sets whether borders are to be displayed.
+     *
+     * @param b whether borders are to be displayed
+     */
     public void setBorders(boolean b)
     {
         if (b)

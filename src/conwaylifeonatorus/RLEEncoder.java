@@ -1,10 +1,20 @@
 package conwaylifeonatorus;
 
+/**
+ * Encodes a universe into <a href="http://conwaylife.com/wiki/RLE">run length encoded</a> format for safekeeping.
+ *
+ * @author Zack M. Davis
+ */
 public class RLEEncoder
 {
     Universe universe;
     StringBuilder builder;
 
+    /**
+     * Encodes a universe into RLE format for safekeeping.
+     *
+     * @param u the universe to be encoded
+     */
     public RLEEncoder(Universe u)
     {
         builder = new StringBuilder(500);
@@ -72,11 +82,17 @@ public class RLEEncoder
             }
     }
 
+    /**
+     * Returns the RLE-encoded universe as a string.
+     */
     public String getRLE()
     {
         return builder.toString();
     }
 
+    /**
+     * Prints the RLE-encoding of the universe to the console.
+     */
     public void printToConsole()
     {
         System.out.println(builder.toString());

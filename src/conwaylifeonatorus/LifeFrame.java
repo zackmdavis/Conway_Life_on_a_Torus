@@ -157,12 +157,9 @@ public class LifeFrame extends JFrame
 
         step.getInputMap().put(KeyStroke.getKeyStroke("UP"), "step");
         step.getActionMap().put("step", stepAction);
-        // The Step and Stop keybindings work, but not the Go
-        // binding?!?---might have something to do with my kludgey
-        // timer design?
-        go.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "go");
+        go.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("RIGHT"), "go");
         go.getActionMap().put("go", goAction);
-        stop.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "stop");
+        stop.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("LEFT"), "stop");
         stop.getActionMap().put("stop", stopAction);
 
         setContentPane(mainPanel);

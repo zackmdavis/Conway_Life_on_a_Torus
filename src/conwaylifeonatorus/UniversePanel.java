@@ -137,6 +137,14 @@ public class UniversePanel extends JPanel
     }
 
     /**
+     * Returns the dimensions of the universe.
+     */
+    public Dimension getDimensions()
+    {
+        return new Dimension(displayCells[0].length, displayCells.length);
+    }
+
+    /**
      * Returns the designated display color for living cells.
      */
     public Color getLiveColor()

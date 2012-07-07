@@ -292,7 +292,7 @@ public class LifeFrame extends JFrame
         {
             if (ae.getSource() == newBlankUniverse)
                 {
-                    DimensionsDialog dimensionsDialog = new DimensionsDialog(LifeFrame.this);
+                    DimensionsDialog dimensionsDialog = new DimensionsDialog(LifeFrame.this, universePanel.getDimensions());
                     dimensionsDialog.pack();
                     dimensionsDialog.setVisible(true);
                     if (dimensionsDialog.userOkay)
@@ -303,7 +303,7 @@ public class LifeFrame extends JFrame
                 }
             else if (ae.getSource() == newRandomUniverse)
                 {
-                    RandomDialog randomDialog = new RandomDialog(LifeFrame.this);
+                    RandomDialog randomDialog = new RandomDialog(LifeFrame.this, universePanel.getDimensions());
                     randomDialog.pack();
                     randomDialog.setVisible(true);
                     if (randomDialog.userOkay)

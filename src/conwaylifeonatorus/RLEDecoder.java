@@ -150,7 +150,6 @@ public class RLEDecoder
     public Universe toUniverse()
     {
         Universe universe = new Universe(rows, cols, board);
-        System.out.println(Arrays.toString(universe.board));
         return universe;
     }
 }

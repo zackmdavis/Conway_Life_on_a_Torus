@@ -36,11 +36,11 @@ public class RLEEncoder
                                 builder.append('\n');
                                 charcount = 0;
                             }
-                        if (universe.board[i][j] != state)
+                        if (universe.getCellState(i, j) != state)
                             {
                                 recordRun(state, run);
                                 charcount += 2;
-                                state = universe.board[i][j];
+                                state = universe.getCellState(i, j);
                                 run = 1;
                             }
                         else

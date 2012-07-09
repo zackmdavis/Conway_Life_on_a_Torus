@@ -17,7 +17,7 @@ public class Universe
 
     public int rows;
     public int cols;
-    public State[][] board;
+    private State[][] board;
 
     /**
      * Constructs a universe with specified cells alive.
@@ -111,6 +111,16 @@ public class Universe
                             board[i][j] = State.DEAD;
                     }
             }
+    }
+
+    public State getCellState(int i, int j)
+    {
+        return board[i][j];
+    }
+
+    public void setCellState(int i, int j, State s)
+    {
+        board[i][j] = s;
     }
 
     /**

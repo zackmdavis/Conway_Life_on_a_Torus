@@ -49,9 +49,7 @@ public class LifeFrame extends JFrame
     private JCheckBoxMenuItem togglePopulationCounter;
     private JCheckBoxMenuItem toggleGenerationCounter;
     private JMenuItem selectSpeed;
-    private JMenuItem selectLiveColor;
-    private JMenuItem selectDeadColor;
-    private JColorChooser colorChooser;
+    private JMenuItem selectColors;
 
     private StepAction stepAction = new StepAction("Step");
     private GoAction goAction = new GoAction("Go");
@@ -115,8 +113,6 @@ public class LifeFrame extends JFrame
         optionsMenu.setMnemonic(KeyEvent.VK_T);
         menuBar.add(optionsMenu);
 
-        colorChooser = new JColorChooser();
-
         toggleBorders = new JCheckBoxMenuItem("Toggle Cell Borders");
         toggleBorders.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
         toggleBorders.setMnemonic(KeyEvent.VK_B);
@@ -138,20 +134,15 @@ public class LifeFrame extends JFrame
         optionsMenu.add(toggleGenerationCounter);
         toggleGenerationCounter.addActionListener(optionsMenuListener);
 
-        selectSpeed = new JMenuItem("Select Speed ...");
+        selectSpeed = new JMenuItem("Adjust Speed ...");
         selectSpeed.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
         optionsMenu.add(selectSpeed);
         selectSpeed.addActionListener(optionsMenuListener);
 
-        selectLiveColor = new JMenuItem("Select Live Cell Color ...", KeyEvent.VK_L);
-        selectLiveColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
-        optionsMenu.add(selectLiveColor);
-        selectLiveColor.addActionListener(optionsMenuListener);
-
-        selectDeadColor = new JMenuItem("Select Dead Cell Color ...", KeyEvent.VK_D);
-        selectDeadColor.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.CTRL_MASK));
-        optionsMenu.add(selectDeadColor);
-        selectDeadColor.addActionListener(optionsMenuListener);
+        selectColors = new JMenuItem("Select Colors ...", KeyEvent.VK_C);
+        selectColors.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+        optionsMenu.add(selectColors);
+        selectColors.addActionListener(optionsMenuListener);
 
         setJMenuBar(menuBar);
 
@@ -413,17 +404,16 @@ public class LifeFrame extends JFrame
                             tick = speedDialog.tick;
                         }
                 }
-            else if (ae.getSource() == selectLiveColor)
+            else if (ae.getSource() == selectColors)
                 {
-                    Color newColor = colorChooser.showDialog(LifeFrame.this, "Live Cell Color", universePanel.getLiveColor());
-                    if (newColor != null)
-                        universePanel.setLiveColor(newColor);
-                }
-            else if (ae.getSource() == selectDeadColor)
-                {
-                    Color newColor = colorChooser.showDialog(LifeFrame.this, "Dead Cell Color", universePanel.getDeadColor());
-                    if (newColor != null)
-                        universePanel.setDeadColor(newColor);
+                    ColorDialog colorDialog = new ColorDialog(LifeFrame.this, universePanel.getLiveColor(), universePanel.getDeadColor());
+                    colorDialog.pack();
+                    colorDialog.setVisible(true);
+                    if (colorDialog.userOkay)
+                        {
+                            universePanel.setLiveColor(colorDialog.liveColor);
+                            universePanel.setDeadColor(colorDialog.deadColor);
+                        }
                 }
         }
     }

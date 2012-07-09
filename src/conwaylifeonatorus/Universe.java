@@ -153,13 +153,6 @@ public class Universe
             {
                 for(int j=0; j<cols; j++)
                     {
-                        new_board[i][j] = State.DEAD;
-                    }
-            }
-        for(int i=0; i<rows; i++)
-            {
-                for(int j=0; j<cols; j++)
-                    {
                         if (board[i][j] == State.ALIVE)
                             {
                                 if (neighborhood(i, j) < 2)

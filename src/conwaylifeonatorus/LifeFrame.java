@@ -51,6 +51,10 @@ public class LifeFrame extends JFrame
     private JMenuItem selectSpeed;
     private JMenuItem selectColors;
 
+    private ActionListener helpMenuListener = new HelpMenuListener();
+    private JMenu helpMenu;
+    private JMenuItem documentation;
+
     private StepAction stepAction = new StepAction("Step");
     private GoAction goAction = new GoAction("Go");
     private StopAction stopAction = new StopAction("Stop");
@@ -143,6 +147,15 @@ public class LifeFrame extends JFrame
         selectColors.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
         optionsMenu.add(selectColors);
         selectColors.addActionListener(optionsMenuListener);
+
+        helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic(KeyEvent.VK_H);
+        menuBar.add(helpMenu);
+
+        documentation = new JMenuItem("Documentation ...", KeyEvent.VK_H);
+        documentation.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
+        helpMenu.add(documentation);
+        documentation.addActionListener(helpMenuListener);
 
         setJMenuBar(menuBar);
 
@@ -417,4 +430,18 @@ public class LifeFrame extends JFrame
                 }
         }
     }
+
+    private class HelpMenuListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent ae)
+        {        
+            if (ae.getSource() == documentation)
+                {
+                    DocFrame docFrame = new DocFrame();
+                    docFrame.setVisible(true);
+                }
+        }
+    }
+
 }

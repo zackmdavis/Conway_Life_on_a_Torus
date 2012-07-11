@@ -1,13 +1,7 @@
 .gitignore
 *.class
-*~
-*.html
 *.rle
-*.css
-*.pdf
 *.jar
-*.war
-*.ear
 build
 dist
 docs

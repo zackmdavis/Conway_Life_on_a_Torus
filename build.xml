@@ -14,6 +14,7 @@
     <javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
     <mkdir dir="${build}/conwaylifeonatorus/resources"/>
     <copy file="${src}/conwaylifeonatorus/resources/titlebar_icon.png" tofile="${build}/conwaylifeonatorus/resources/titlebar_icon.png"/>
+    <copy file="${src}/conwaylifeonatorus/resources/documentation.html" tofile="${build}/conwaylifeonatorus/resources/documentation.html"/>
   </target>
 
   <target name="dist" depends="compile" description="generate the distribution">

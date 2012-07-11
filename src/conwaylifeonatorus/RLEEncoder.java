@@ -20,16 +20,16 @@ public class RLEEncoder
         builder = new StringBuilder(500);
         universe = u;
         builder.append("x = ");
-        builder.append(universe.cols);
+        builder.append(universe.getCols());
         builder.append(", y = ");
-        builder.append(universe.rows);
+        builder.append(universe.getRows());
         builder.append(", rule = B3/S23\n");
         int charcount = 0;
-        Universe.State state = Universe.State.VOID;
+        State state = State.VOID;
         int run = 0;
-        for (int i=0; i<universe.rows; i++)
+        for (int i=0; i<universe.getRows(); i++)
             {
-                for (int j=0; j<universe.cols; j++)
+                for (int j=0; j<universe.getCols(); j++)
                     {
                         if (charcount > 65)
                             {
@@ -46,32 +46,32 @@ public class RLEEncoder
                         else
                             run++;
                     }
-                if (state == Universe.State.DEAD)
+                if (state == State.DEAD)
                     {
-                        state = Universe.State.VOID;
+                        state = State.VOID;
                         run = 0;
                     }
-                else if (state == Universe.State.ALIVE)
+                else if (state == State.ALIVE)
                     {
                         recordRun(state, run);
                         charcount += 2;
-                        state = Universe.State.VOID;
+                        state = State.VOID;
                         run = 0;
                     }
 
-                if (i == universe.rows - 1)
+                if (i == universe.getRows() - 1)
                     builder.append("!");
                 else
                     builder.append("$");
             }
     }
 
-    private void recordRun(Universe.State s, int r)
+    private void recordRun(State s, int r)
     {
         String st = "";
-        if (s == Universe.State.DEAD)
+        if (s == State.DEAD)
             st = "b";
-        else if (s == Universe.State.ALIVE)
+        else if (s == State.ALIVE)
             st = "o";
         if (st == "b" || st == "o")
             {

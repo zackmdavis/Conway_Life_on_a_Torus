@@ -68,7 +68,7 @@ public class LifeFrame extends JFrame
     {
         int[] x_start = {0, 1, 2, 2, 2};
         int[] y_start = {1, 2, 0, 1, 2};
-        universePanel = new UniversePanel(this, new Universe(10, 25, x_start, y_start), 20, Color.black, Color.white, false);
+        universePanel = new UniversePanel(this, new ArrayUniverse(10, 25, x_start, y_start), 20, Color.black, Color.white, false);
 
         BoxLayout layout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
         mainPanel.setLayout(layout);
@@ -193,7 +193,7 @@ public class LifeFrame extends JFrame
         Universe universe = u;
         mainPanel.remove(universePanel);
         mainPanel.remove(buttonPanel);
-        universePanel = new UniversePanel(this, universe, computeDisplayCellSize(new Dimension(u.cols, u.rows)), liveColor, deadColor, borders);
+        universePanel = new UniversePanel(this, universe, computeDisplayCellSize(new Dimension(u.getCols(), u.getRows())), liveColor, deadColor, borders);
         mainPanel.add(universePanel);
         mainPanel.add(buttonPanel);
         generationLabel.setText("0");
@@ -299,7 +299,7 @@ public class LifeFrame extends JFrame
                     dimensionsDialog.setVisible(true);
                     if (dimensionsDialog.userOkay)
                         {
-                            Universe blankUniverse = new Universe(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
+                            Universe blankUniverse = new ArrayUniverse(dimensionsDialog.userDimensions[0], dimensionsDialog.userDimensions[1]);
                             setUniverse(blankUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
                         }
                 }
@@ -310,7 +310,7 @@ public class LifeFrame extends JFrame
                     randomDialog.setVisible(true);
                     if (randomDialog.userOkay)
                         {
-                            Universe randomUniverse = new Universe(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
+                            Universe randomUniverse = new ArrayUniverse(randomDialog.userDimensions[0], randomDialog.userDimensions[1],randomDialog.getDensity());
                             setUniverse(randomUniverse, universePanel.getLiveColor(), universePanel.getDeadColor(), universePanel.getBorders());
                         }
                 }

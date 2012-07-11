@@ -44,7 +44,7 @@ public class UniversePanel extends JPanel
     {
         parentFrame = pf;
         universe = u;
-        displayCells = new DisplayCell[universe.rows][universe.cols];
+        displayCells = new DisplayCell[universe.getRows()][universe.getCols()];
         liveColor = lc;
         deadColor = dc;
         borders = b;
@@ -57,7 +57,7 @@ public class UniversePanel extends JPanel
                     {
                         DisplayCell displayCell = new DisplayCell(i, j);
                         displayCell.setOpaque(true);
-                        if (universe.getCellState(i, j) == Universe.State.ALIVE)
+                        if (universe.getCellState(i, j) == State.ALIVE)
                             displayCell.setBackground(lc);
                         else
                             displayCell.setBackground(dc);
@@ -80,7 +80,7 @@ public class UniversePanel extends JPanel
             {
                 for (int j=0; j<displayCells[0].length; j++)
                     {
-                        if (universe.getCellState(i, j) == Universe.State.ALIVE)
+                        if (universe.getCellState(i, j) == State.ALIVE)
                             displayCells[i][j].setBackground(liveColor);
                         else
                             displayCells[i][j].setBackground(deadColor);
@@ -112,17 +112,17 @@ public class UniversePanel extends JPanel
      */
     public void toggleDisplayCell(DisplayCell c) 
     {
-        if (universe.getCellState(c.I, c.J) == Universe.State.ALIVE)
+        if (universe.getCellState(c.I, c.J) == State.ALIVE)
             {
                 System.out.println(c.I + " " + c.J + " OFF");
-                universe.setCellState(c.I, c.J, Universe.State.DEAD);
+                universe.setCellState(c.I, c.J, State.DEAD);
                 displayCells[c.I][c.J].setBackground(deadColor);
                 parentFrame.decrementPopulationLabel();
             }
         else
             {
                 System.out.println(c.I + " " + c.J + " ON");
-                universe.setCellState(c.I, c.J, Universe.State.ALIVE);
+                universe.setCellState(c.I, c.J, State.ALIVE);
                 displayCells[c.I][c.J].setBackground(liveColor);
                 parentFrame.incrementPopulationLabel();
             }

@@ -82,7 +82,22 @@ public class LifeFrame extends JFrame
         menuBar = new JMenuBar();
 
         URL titlebarIconURL = this.getClass().getResource("resources/titlebar_icon.png");
-        this.setIconImage(new ImageIcon(titlebarIconURL).getImage());
+        Image icon = new ImageIcon(titlebarIconURL).getImage();
+        this.setIconImage(icon);
+        if (SystemTray.isSupported())
+            {
+                SystemTray tray = SystemTray.getSystemTray();
+                TrayIcon trayIcon = new TrayIcon(icon, "Conway Life on a Torus");
+                trayIcon.setImageAutoSize(true);
+                try
+                    {
+                        tray.add(trayIcon);
+                    }
+                catch (AWTException awte)
+                    {
+                        System.out.println("Failed to load system tray icon");
+                    }
+            }
 
         fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);

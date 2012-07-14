@@ -16,6 +16,8 @@ public class ColorDialog extends JDialog implements ActionListener
     private JTabbedPane chooserPane = new JTabbedPane();
     private JColorChooser liveChooser;
     private JColorChooser deadChooser;
+    private ColorPreviewPanel livePreview;
+    private ColorPreviewPanel deadPreview;
 
     private JPanel buttonPanel = new JPanel();
     private JButton cancel = new JButton("Cancel");
@@ -39,9 +41,20 @@ public class ColorDialog extends JDialog implements ActionListener
         mainPanel.setLayout(layout);
 
         liveChooser = new JColorChooser(startingLiveColor);
-        liveChooser.setPreviewPanel(new JPanel());
+        livePreview = new ColorPreviewPanel(liveChooser);
+        livePreview.setSize(livePreview.getPreferredSize());
+        // Thanks to http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=5029286
+        livePreview.setBorder(BorderFactory.createEmptyBorder(0,0,1,0));
+        liveChooser.getSelectionModel().addChangeListener(livePreview);
+        liveChooser.setPreviewPanel(livePreview);
+        
         deadChooser = new JColorChooser(startingDeadColor);
-        deadChooser.setPreviewPanel(new JPanel());
+        deadPreview = new ColorPreviewPanel(deadChooser);
+        deadPreview.setSize(deadPreview.getPreferredSize());
+        deadPreview.setBorder(BorderFactory.createEmptyBorder(0,0,1,0));
+        deadChooser.getSelectionModel().addChangeListener(deadPreview);
+        deadChooser.setPreviewPanel(deadPreview);
+
         chooserPane.addTab("Live Cells", liveChooser);
         chooserPane.setMnemonicAt(0, KeyEvent.VK_1);
         chooserPane.addTab("Dead Cells", deadChooser);
@@ -72,6 +85,26 @@ public class ColorDialog extends JDialog implements ActionListener
             {
                 setVisible(false);
             }
+    }
 
+    private class ColorPreviewPanel extends JPanel implements ChangeListener
+    {
+        private JColorChooser parent;
+
+        ColorPreviewPanel(JColorChooser chooser)
+        {
+            super();
+            parent = chooser;
+            this.setOpaque(true);
+            this.setBackground(parent.getColor());
+            this.setPreferredSize(new Dimension(400, 80));
+        }
+
+        @Override
+        public void stateChanged(ChangeEvent ce)
+        {
+            Color newColor = parent.getColor();
+            this.setBackground(newColor);
+        }
     }
 }

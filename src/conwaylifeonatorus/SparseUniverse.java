@@ -2,8 +2,9 @@ package conwaylifeonatorus;
 
 import java.util.HashMap;
 import java.util.Set;
+import java.util.HashSet;
 
-public class SparseUniverse
+public class SparseUniverse implements Universe
 {
     private int rows;
     private int cols;
@@ -98,7 +99,7 @@ public class SparseUniverse
             }
     }
 
-    private String[] acquireNeighborhood(int i, int j)
+    private static String[] acquireNeighborhood(int i, int j)
     {
         String[] neighborhood = new String[8];
         int neighborsPlaced = 0;
@@ -130,9 +131,34 @@ public class SparseUniverse
 
     public void advanceGeneration()
     {
-        // TODO: grab a collection of all live cells _and_ neighbors
-        // of live cells; implement the generation rule on these (the
-        // idea being that ignoring all-dead regions is smarter)
+        //live cells and all neighbors thereof
+        Set<String> toUpdate = new HashSet<String>(rows*cols);
+        HashMap<String, State> newLiveCells = new HashMap<String, State>(rows*cols);
+        for (String stringCell : liveCells.keySet())
+            {
+                int[] cell = decodeIndices(stringCell);
+                toUpdate.add(stringCell);
+                for (String stringNeighbor : acquireNeighborhood(cell[0], cell[1]))
+                    {
+                        toUpdate.add(stringNeighbor);
+                    }
+            }
+        for (String stringCell : toUpdate)
+            {
+                int[] cell = decodeIndices(stringCell);
+                int liveNeighbors = countLiveNeighbors(cell[0], cell[1]);
+                if (getCellState(cell[0], cell[1]) == State.ALIVE)
+                    {
+                        if ((liveNeighbors == 2) || (liveNeighbors == 3))
+                            newLiveCells.put(stringCell, State.ALIVE);
+                    }
+                else if (getCellState(cell[0], cell[1]) == State.DEAD)
+                    {
+                        if (liveNeighbors == 3)
+                            newLiveCells.put(stringCell, State.ALIVE);
+                    }
+            }
+        liveCells = newLiveCells;
     }
 
     public int queryPopulation()
@@ -143,6 +169,17 @@ public class SparseUniverse
     private static String encodeIndices(int i, int j)
     {
         return i + "," + j;
+    }
+
+    private static int[] decodeIndices(String key)
+    {
+        String[] stringIndices =  key.split(",");
+        int[] indices = new int[2];
+        for (int k=0; k<2; k++)
+            {
+                indices[k] = Integer.parseInt(stringIndices[k]);
+            }
+        return indices;
     }
 
     /**
